@@ -8,10 +8,12 @@ class UniverseSuite extends munit.FunSuite {
   }
 
   test("Universe.of") {
-    assertEquals(Universe.of(LazyList.from(0)).enumerate.take(2), LazyList(0, 1))
-    assertEquals(Universe.of(LazyList.from(0)).cardinality, Inf)
-    assertEquals(Universe.of(LazyList(0, 1), Fin(2)).enumerate, LazyList(0, 1))
-    assertEquals(Universe.of(LazyList(0, 1), Fin(2)).cardinality, Fin(2))
+    assertEquals(Universe.of(LazyList.from(0), BigInt(_: Int)).enumerate.take(2), LazyList(0, 1))
+    assertEquals(Universe.of(LazyList.from(0), BigInt(_: Int)).cardinality, Inf)
+    assertEquals(Universe.of(LazyList.from(0), BigInt(_: Int)).indexOf(0), 0: BigInt)
+    assertEquals(Universe.of(LazyList(0, 1), Fin(2), BigInt(_: Int)).enumerate, LazyList(0, 1))
+    assertEquals(Universe.of(LazyList(0, 1), Fin(2), BigInt(_: Int)).cardinality, Fin(2))
+    assertEquals(Universe.of(LazyList(0, 1), Fin(2), BigInt(_: Int)).indexOf(0), 0: BigInt)
   }
 
   test("Universe.finite") {
@@ -68,9 +70,9 @@ class UniverseSuite extends munit.FunSuite {
     assertEquals(Universe.either(Universe[Boolean], Universe[Boolean]).cardinality, Fin(4))
   }
 
-  test("Universe.function2") {
+  test("Universe.function1") {
     assertEquals(
-      Universe.function2(Finite[Boolean], Universe[BigInt]).enumerate.take(4),
+      Universe.function1(Finite[Boolean], Universe[BigInt]).enumerate.take(4),
       LazyList[Map[Boolean, BigInt]](
         Map(false -> 0, true -> 0),
         Map(false -> -1, true -> 0),
@@ -78,8 +80,8 @@ class UniverseSuite extends munit.FunSuite {
         Map(false -> 1, true -> 0)
       )
     )
-    assertEquals(Universe.function2(Finite[Boolean], Universe[BigInt]).cardinality, Inf)
-    assertEquals(Universe.function2(Finite[Boolean], Universe[Boolean]).cardinality, Fin(4))
+    assertEquals(Universe.function1(Finite[Boolean], Universe[BigInt]).cardinality, Inf)
+    assertEquals(Universe.function1(Finite[Boolean], Universe[Boolean]).cardinality, Fin(4))
   }
 
   test("Universe.partialFunction") {

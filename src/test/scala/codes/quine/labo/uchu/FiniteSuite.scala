@@ -9,12 +9,15 @@ class FiniteSuite extends munit.FunSuite {
   }
 
   test("Finite.of") {
-    assertEquals(Finite.of(LazyList(0, 1)).enumerate, LazyList(0, 1))
-    assertEquals(Finite.of(LazyList(0, 1)).size, 2: BigInt)
-    assertEquals(Finite.of(LazyList(0, 1), 2).enumerate, LazyList(0, 1))
-    assertEquals(Finite.of(LazyList(0, 1), 2).size, 2: BigInt)
-    assertEquals(Finite.of(LazyList(0, 1), Fin(2)).enumerate, LazyList(0, 1))
-    assertEquals(Finite.of(LazyList(0, 1), Fin(2)).size, 2: BigInt)
+    assertEquals(Finite.of(LazyList(0, 1), BigInt(_: Int)).enumerate, LazyList(0, 1))
+    assertEquals(Finite.of(LazyList(0, 1), BigInt(_: Int)).size, 2: BigInt)
+    assertEquals(Finite.of(LazyList(0, 1), BigInt(_: Int)).indexOf(0), 0: BigInt)
+    assertEquals(Finite.of(LazyList(0, 1), 2, BigInt(_: Int)).enumerate, LazyList(0, 1))
+    assertEquals(Finite.of(LazyList(0, 1), 2, BigInt(_: Int)).size, 2: BigInt)
+    assertEquals(Finite.of(LazyList(0, 1), 2, BigInt(_: Int)).indexOf(0), 0: BigInt)
+    assertEquals(Finite.of(LazyList(0, 1), Fin(2), BigInt(_: Int)).enumerate, LazyList(0, 1))
+    assertEquals(Finite.of(LazyList(0, 1), Fin(2), BigInt(_: Int)).size, 2: BigInt)
+    assertEquals(Finite.of(LazyList(0, 1), Fin(2), BigInt(_: Int)).indexOf(0), 0: BigInt)
   }
 
   test("Finite.nothing") {
@@ -104,9 +107,9 @@ class FiniteSuite extends munit.FunSuite {
     assertEquals(Finite.set(Finite[Boolean]).size, 4: BigInt)
   }
 
-  test("Finite.function2") {
+  test("Finite.function1") {
     assertEquals(
-      Finite.function2(Finite[Boolean], Finite[Boolean]).enumerate,
+      Finite.function1(Finite[Boolean], Finite[Boolean]).enumerate,
       LazyList(
         Map(false -> false, true -> false),
         Map(false -> true, true -> false),
@@ -114,7 +117,7 @@ class FiniteSuite extends munit.FunSuite {
         Map(false -> true, true -> true)
       )
     )
-    assertEquals(Finite.function2(Finite[Boolean], Finite[Boolean]).size, 4: BigInt)
+    assertEquals(Finite.function1(Finite[Boolean], Finite[Boolean]).size, 4: BigInt)
   }
 
   test("Finite.partialFunction") {

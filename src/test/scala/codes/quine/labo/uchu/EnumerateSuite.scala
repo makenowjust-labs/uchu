@@ -64,9 +64,9 @@ class EnumerateSuite extends munit.FunSuite {
     )
   }
 
-  test("Enumerate.function2") {
+  test("Enumerate.function1") {
     assertEquals(
-      Enumerate.function2(LazyList(0, 1), 2, LazyList(0, 1)),
+      Enumerate.function1(LazyList(0, 1), 2, LazyList(0, 1)),
       LazyList(
         Map(0 -> 0, 1 -> 0),
         Map(0 -> 1, 1 -> 0),

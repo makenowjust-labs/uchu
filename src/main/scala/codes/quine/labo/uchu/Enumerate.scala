@@ -29,7 +29,7 @@ private[uchu] object Enumerate {
   def long: LazyList[Long] =
     bigInt.takeWhile(n => n >= Long.MinValue && n <= Long.MaxValue).map(_.toLong)
 
-  /** Enumerates pair values in diagonal order. */
+  /** Enumerates a pair of values in diagonal order. */
   def tuple2[A, B](xs: LazyList[A], ys: LazyList[B]): LazyList[(A, B)] =
     diagonal(xs.map(x => ys.map((x, _))))
 
@@ -58,7 +58,7 @@ private[uchu] object Enumerate {
     )
 
   /** Enumerates possible functions in diagonal order. */
-  def function2[A, B](xs: LazyList[A], xsSize: BigInt, ys: LazyList[B]): LazyList[A => B] =
+  def function1[A, B](xs: LazyList[A], xsSize: BigInt, ys: LazyList[B]): LazyList[A => B] =
     listN(ys, xsSize).map(_.zip(xs).map { case (y, x) => (x, y) }.toMap)
 
   /** Enumerates possible optional values. */
@@ -70,7 +70,7 @@ private[uchu] object Enumerate {
     interleave(xs.map(Left(_)), ys.map(Right(_)))
 
   /** Enumerates table values in diagonal order. */
-  def diagonal[A](table: LazyList[LazyList[A]]): LazyList[A] = {
+  private[uchu] def diagonal[A](table: LazyList[LazyList[A]]): LazyList[A] = {
     def diagonals(edges: Seq[LazyList[A]], table: LazyList[LazyList[A]]): LazyList[Seq[A]] =
       LazyList.cons(
         edges.flatMap(_.headOption), {
@@ -90,17 +90,17 @@ private[uchu] object Enumerate {
   }
 
   /** Enumerates possible lists which size up to the given parameter in diagonal order. */
-  def sized[A](xs: LazyList[A], size: BigInt): LazyList[List[A]] =
+  private[uchu] def sized[A](xs: LazyList[A], size: BigInt): LazyList[List[A]] =
     if (size <= 0) LazyList(Nil)
     else LazyList.cons(Nil, tuple2(xs, sized(xs, size - 1)).map { case (x, xs) => x :: xs })
 
   /** Enumerates possible list which sze to the given parameter in diagonal order. */
-  def listN[A](xs: LazyList[A], size: BigInt): LazyList[List[A]] =
+  private[uchu] def listN[A](xs: LazyList[A], size: BigInt): LazyList[List[A]] =
     if (size <= 0) LazyList(Nil)
     else tuple2(xs, listN(xs, size - 1)).map { case (x, xs) => x :: xs }
 
   /** Enumerates two values with interleaving. */
-  def interleave[A](xs: LazyList[A], ys: LazyList[A]): LazyList[A] =
+  private[uchu] def interleave[A](xs: LazyList[A], ys: LazyList[A]): LazyList[A] =
     xs.headOption match {
       case Some(x) => LazyList.cons(x, interleave(ys, xs.tail))
       case None    => ys
