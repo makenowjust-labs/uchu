@@ -13,6 +13,22 @@ private[uchu] object Enum {
   def bigInt: LazyList[BigInt] =
     LazyList.cons(0, LazyList.iterate(1: BigInt)(_ + 1).flatMap(n => Seq(-n, n)))
 
+  /** Enumerates possible [[Byte]] values. */
+  def byte: LazyList[Byte] =
+    bigInt.takeWhile(n => n >= Byte.MinValue && n <= Byte.MaxValue).map(_.toByte)
+
+  /** Enumerates possible [[Short]] values. */
+  def short: LazyList[Short] =
+    bigInt.takeWhile(n => n >= Short.MinValue && n <= Short.MaxValue).map(_.toShort)
+
+  /** Enumerates possible [[Int]] values. */
+  def int: LazyList[Int] =
+    bigInt.takeWhile(n => n >= Int.MinValue && n <= Int.MaxValue).map(_.toInt)
+
+  /** Enumerates possible [[Long]] values. */
+  def long: LazyList[Long] =
+    bigInt.takeWhile(n => n >= Long.MinValue && n <= Long.MaxValue).map(_.toLong)
+
   /** Enumerates pair values in diagonal order. */
   def tuple2[A, B](xs: LazyList[A], ys: LazyList[B]): LazyList[(A, B)] =
     diagonal(xs.map(x => ys.map((x, _))))

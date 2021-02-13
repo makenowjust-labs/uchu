@@ -2,6 +2,8 @@
 
 > the Scala universe
 
+![space cat](https://i.imgur.com/nAnqC.jpeg)
+
 ## License
 
 MIT

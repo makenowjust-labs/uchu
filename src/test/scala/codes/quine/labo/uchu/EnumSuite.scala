@@ -9,6 +9,22 @@ class EnumSuite extends munit.FunSuite {
     assertEquals(Enum.bigInt.take(5), LazyList[BigInt](0, -1, 1, -2, 2))
   }
 
+  test("Enum.byte") {
+    assertEquals(Enum.byte.take(5), LazyList[Byte](0, -1, 1, -2, 2))
+  }
+
+  test("Enum.short") {
+    assertEquals(Enum.short.take(5), LazyList[Short](0, -1, 1, -2, 2))
+  }
+
+  test("Enum.int") {
+    assertEquals(Enum.int.take(5), LazyList(0, -1, 1, -2, 2))
+  }
+
+  test("Enum.long") {
+    assertEquals(Enum.long.take(5), LazyList[Long](0, -1, 1, -2, 2))
+  }
+
   test("Enum.tuple2") {
     assertEquals(Enum.tuple2(LazyList(0, 1), LazyList(0, 1)), LazyList((0, 0), (1, 0), (0, 1), (1, 1)))
   }
