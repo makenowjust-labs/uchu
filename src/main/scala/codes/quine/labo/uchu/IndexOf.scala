@@ -1,6 +1,6 @@
 package codes.quine.labo.uchu
 
-import Cardinality._
+import codes.quine.labo.uchu.Cardinality._
 
 /** IndexOf is utilities for indexing a value.
   *
@@ -76,7 +76,7 @@ private[uchu] object IndexOf {
     new (List[A] => BigInt) { rec =>
       private[this] val t = tuple2(a, aCard, rec, Inf)
       def apply(xs: List[A]): BigInt = xs match {
-        case Nil => 0
+        case Nil     => 0
         case x :: xs => 1 + t((x, xs))
       }
     }
@@ -118,7 +118,13 @@ private[uchu] object IndexOf {
   }
 
   /** Indexes a partial function. */
-  def partialFunction[A, B](a: A => BigInt, xs: LazyList[A], aCard: Fin, b: B => BigInt, bCard: Cardinality): PartialFunction[A, B] => BigInt = {
+  def partialFunction[A, B](
+      a: A => BigInt,
+      xs: LazyList[A],
+      aCard: Fin,
+      b: B => BigInt,
+      bCard: Cardinality
+  ): PartialFunction[A, B] => BigInt = {
     val sizedCard = bCard match {
       case Fin(n) => Fin((1 - (n + 1).pow(aCard.toInt)) / (1 - (n + 1)))
       case Inf    => Inf
@@ -138,24 +144,26 @@ private[uchu] object IndexOf {
 
   /** Indexes an optional value. */
   def option[A](a: A => BigInt): Option[A] => BigInt = {
-    case None => 0
+    case None    => 0
     case Some(x) => a(x) + 1
   }
 
   /** Indexes an either value. */
   def either[A, B](a: A => BigInt, aCard: Cardinality, b: B => BigInt, bCard: Cardinality): Either[A, B] => BigInt = {
-    case Left(x) => bCard match {
-      case Fin(m) =>
-        val i = a(x)
-        if (i >= m) m * 2 + (i - m) else i * 2
-      case Inf => a(x) * 2
-    }
-    case Right(y) => aCard match {
-      case Fin(n) =>
-        val j = b(y)
-        if (j >= n) n * 2 + (j - n) else j * 2 + 1
-      case Inf => b(y) * 2 + 1
-    }
+    case Left(x) =>
+      bCard match {
+        case Fin(m) =>
+          val i = a(x)
+          if (i >= m) m * 2 + (i - m) else i * 2
+        case Inf => a(x) * 2
+      }
+    case Right(y) =>
+      aCard match {
+        case Fin(n) =>
+          val j = b(y)
+          if (j >= n) n * 2 + (j - n) else j * 2 + 1
+        case Inf => b(y) * 2 + 1
+      }
   }
 
   /** Indexes a list which size up to the given parameter. */
@@ -164,12 +172,12 @@ private[uchu] object IndexOf {
     else {
       val sizedCard = aCard match {
         case Fin(n) => Fin((1 - n.pow(Fin(size).toInt)) / (1 - n))
-        case Inf => Inf
+        case Inf    => Inf
       }
       val t = tuple2(a, aCard, (xs: List[A]) => sized(a, aCard, size - 1)(xs), sizedCard)
 
       {
-        case Nil => 0
+        case Nil     => 0
         case x :: xs => 1 + t((x, xs))
       }
     }
@@ -180,12 +188,12 @@ private[uchu] object IndexOf {
     else {
       val sizedCard = aCard match {
         case Fin(n) => Fin(n.pow(Fin(size - 1).toInt))
-        case Inf => Inf
+        case Inf    => Inf
       }
       val t = tuple2(a, aCard, (xs: List[A]) => listN(a, aCard, size - 1)(xs), sizedCard)
 
       {
-        case Nil => 0
+        case Nil     => 0
         case x :: xs => t((x, xs))
       }
     }

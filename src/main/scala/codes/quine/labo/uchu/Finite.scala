@@ -35,11 +35,12 @@ object Finite {
   def of[A](xs: => LazyList[A], size: => BigInt, i: A => BigInt): Finite[A] = of(xs, Fin(size), i)
 
   /** Builds an instance from a lazy list and its cardinality. */
-  def of[A](xs: => LazyList[A], card: => Fin, i: A => BigInt)(implicit dummy: DummyImplicit): Finite[A] = new Finite[A] {
-    def enumerate: LazyList[A] = xs
-    def cardinality: Fin = card
-    def indexOf(x: A): BigInt = i(x)
-  }
+  def of[A](xs: => LazyList[A], card: => Fin, i: A => BigInt)(implicit dummy: DummyImplicit): Finite[A] =
+    new Finite[A] {
+      def enumerate: LazyList[A] = xs
+      def cardinality: Fin = card
+      def indexOf(x: A): BigInt = i(x)
+    }
 
   /** An instance for [[Nothing]]. */
   implicit def nothing: Finite[Nothing] = of(LazyList.empty, PartialFunction.empty)
