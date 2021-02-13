@@ -16,7 +16,7 @@ trait Finite[A] extends Universe[A] {
 
   override def toString: String = {
     val card = try cardinality catch { case _: ArithmeticException => "<error>" }
-    s"Finite.of($universe, $card)"
+    s"Finite.of($enumerate, $card)"
   }
 }
 
@@ -34,7 +34,7 @@ object Finite {
 
   /** Builds an instance from a lazy list and its cardinality. */
   def of[A](xs: => LazyList[A], card: => Fin)(implicit dummy: DummyImplicit): Finite[A] = new Finite[A] {
-    def universe: LazyList[A] = xs
+    def enumerate: LazyList[A] = xs
     def cardinality: Fin = card
   }
 
@@ -45,35 +45,35 @@ object Finite {
   implicit def unit: Finite[Unit] = of(LazyList(()))
 
   /** An instance for [[Boolean]]. */
-  implicit def boolean: Finite[Boolean] = of(Enum.boolean)
+  implicit def boolean: Finite[Boolean] = of(Enumerate.boolean)
 
   /** An instance for [[Byte]]. */
-  implicit def byte: Finite[Byte] = of(Enum.byte, (2: BigInt).pow(8))
+  implicit def byte: Finite[Byte] = of(Enumerate.byte, (2: BigInt).pow(8))
 
   /** An instance for [[Short]]. */
-  implicit def short: Finite[Short] = of(Enum.short, (2: BigInt).pow(16))
+  implicit def short: Finite[Short] = of(Enumerate.short, (2: BigInt).pow(16))
 
   /** An instance for [[Int]]. */
-  implicit def int: Finite[Int] = of(Enum.int, (2: BigInt).pow(32))
+  implicit def int: Finite[Int] = of(Enumerate.int, (2: BigInt).pow(32))
 
   /** An instance for [[Long]]. */
-  implicit def long: Finite[Long] = of(Enum.long, (2: BigInt).pow(64))
+  implicit def long: Finite[Long] = of(Enumerate.long, (2: BigInt).pow(64))
 
   /** An instance for [[Tuple2]]. */
   implicit def tuple2[A, B](implicit A: Finite[A], B: Finite[B]): Finite[(A, B)] =
-    of(Enum.tuple2(A.universe, B.universe), A.cardinality * B.cardinality)
+    of(Enumerate.tuple2(A.enumerate, B.enumerate), A.cardinality * B.cardinality)
 
   /** An instance for [[Option]]. */
   implicit def option[A](implicit A: Finite[A]): Finite[Option[A]] =
-    of(Enum.option(A.universe), A.cardinality + 1)
+    of(Enumerate.option(A.enumerate), A.cardinality + 1)
 
   /** An instance for [[Either]]. */
   implicit def either[A, B](implicit A: Finite[A], B: Finite[B]): Finite[Either[A, B]] =
-    of(Enum.either(A.universe, B.universe), A.cardinality + B.cardinality)
+    of(Enumerate.either(A.enumerate, B.enumerate), A.cardinality + B.cardinality)
 
   /** An instance for [[Map]]. */
   implicit def map[A, B](implicit A: Finite[A], B: Finite[B]): Finite[Map[A, B]] =
-    of(Enum.map(A.universe, A.size, B.universe), (B.cardinality + 1) ** A.cardinality)
+    of(Enumerate.map(A.enumerate, A.size, B.enumerate), (B.cardinality + 1) ** A.cardinality)
 
   /** An instance for [[Set]].
     *
@@ -81,13 +81,13 @@ object Finite {
     * because the cardinality of `Set[A]` is strictly greater than `A`.
     */
   implicit def set[A](implicit A: Finite[A]): Finite[Set[A]] =
-    of(Enum.set(A.universe, A.size), (2: BigInt).pow(A.cardinality.toInt))
+    of(Enumerate.set(A.enumerate, A.size), (2: BigInt).pow(A.cardinality.toInt))
 
   /** An instance for [[Function2]]. */
   implicit def function2[A, B](implicit A: Finite[A], B: Finite[B]): Finite[A => B] =
-    of(Enum.function2(A.universe, A.size, B.universe), B.cardinality ** A.cardinality)
+    of(Enumerate.function2(A.enumerate, A.size, B.enumerate), B.cardinality ** A.cardinality)
 
   /** An instance for [[PartialFunction]]. It is same as [[Finite.map]] internally. */
   implicit def partialFunction[A, B](implicit A: Finite[A], B: Finite[B]): Finite[PartialFunction[A, B]] =
-    of(Enum.map(A.universe, A.size, B.universe), (B.cardinality + 1) ** A.cardinality)
+    of(Enumerate.map(A.enumerate, A.size, B.enumerate), (B.cardinality + 1) ** A.cardinality)
 }

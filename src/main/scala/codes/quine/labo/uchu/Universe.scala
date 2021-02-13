@@ -9,14 +9,14 @@ import Cardinality.Inf
 trait Universe[A] extends Serializable {
 
   /** Enumerates all possible values of the type. */
-  def universe: LazyList[A]
+  def enumerate: LazyList[A]
 
   /** A cardinality of the type. */
   def cardinality: Cardinality
 
   override def toString: String = {
     val card = try cardinality catch { case _: ArithmeticException => "<error>" }
-    s"Universe.of($universe, $card)"
+    s"Universe.of($enumerate, $card)"
   }
 }
 
@@ -31,7 +31,7 @@ object Universe {
 
   /** Builds an instance from a lazy list and its cardinality. */
   def of[A](xs: => LazyList[A], card: => Cardinality): Universe[A] = new Universe[A] {
-    def universe: LazyList[A] = xs
+    def enumerate: LazyList[A] = xs
     def cardinality: Cardinality = card
   }
 
@@ -43,33 +43,33 @@ object Universe {
     * Honestly, [[BigInt]] is finite because its available value is up to 2^Int.MaxValue^,
     * but it is considered as infinite for usual purpose.
     */
-  implicit def bigInt: Universe[BigInt] = of(Enum.bigInt)
+  implicit def bigInt: Universe[BigInt] = of(Enumerate.bigInt)
 
   /** An instance for [[Tuple2]]. */
   implicit def tuple2[A, B](implicit A: Universe[A], B: Universe[B]): Universe[(A, B)] =
-    of(Enum.tuple2(A.universe, B.universe), A.cardinality * B.cardinality)
+    of(Enumerate.tuple2(A.enumerate, B.enumerate), A.cardinality * B.cardinality)
 
   /** An instance for [[List]]. */
   implicit def list[A](implicit A: Universe[A]): Universe[List[A]] =
-    of(Enum.list(A.universe))
+    of(Enumerate.list(A.enumerate))
 
   /** An instance for [[Map]]. */
   implicit def map[A, B](implicit A: Finite[A], B: Universe[B]): Universe[Map[A, B]] =
-    of(Enum.map(A.universe, A.size, B.universe), (B.cardinality + 1) ** A.cardinality)
+    of(Enumerate.map(A.enumerate, A.size, B.enumerate), (B.cardinality + 1) ** A.cardinality)
 
   /** An instance for [[Option]]. */
   implicit def option[A](implicit A: Universe[A]): Universe[Option[A]] =
-    of(Enum.option(A.universe), A.cardinality + 1)
+    of(Enumerate.option(A.enumerate), A.cardinality + 1)
 
   /** An instance for [[Either]]. */
   implicit def either[A, B](implicit A: Universe[A], B: Universe[B]): Universe[Either[A, B]] =
-    of(Enum.either(A.universe, B.universe), A.cardinality + B.cardinality)
+    of(Enumerate.either(A.enumerate, B.enumerate), A.cardinality + B.cardinality)
 
   /** An instance for [[Function1]]. */
   implicit def function2[A, B](implicit A: Finite[A], B: Universe[B]): Universe[A => B] =
-    of(Enum.function2(A.universe, A.size, B.universe), B.cardinality ** A.cardinality)
+    of(Enumerate.function2(A.enumerate, A.size, B.enumerate), B.cardinality ** A.cardinality)
 
   /** An instance for [[PartialFunction]]. It is same as [[Universe.map]] internally. */
   implicit def partialFunction[A, B](implicit A: Finite[A], B: Universe[B]): Universe[PartialFunction[A, B]] =
-    of(Enum.map(A.universe, A.cardinality.size, B.universe), (B.cardinality + 1) ** A.cardinality)
+    of(Enumerate.map(A.enumerate, A.cardinality.size, B.enumerate), (B.cardinality + 1) ** A.cardinality)
 }

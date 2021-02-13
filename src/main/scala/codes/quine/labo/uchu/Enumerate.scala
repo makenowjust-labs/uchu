@@ -2,9 +2,9 @@ package codes.quine.labo.uchu
 
 /** Enum is utilities for enumerating possible values.
   *
-  * The methods in this are used for implementing [[Universe.universe]].
+  * The methods in this are used for implementing [[Universe.enumerate]].
   */
-private[uchu] object Enum {
+private[uchu] object Enumerate {
 
   /** Enumerates possible [[Boolean]] values. */
   def boolean: LazyList[Boolean] = LazyList(false, true)
@@ -52,7 +52,7 @@ private[uchu] object Enum {
     LazyList.cons(
       Set.empty,
       if (xsSize > 0) {
-        val values = Enum.sized(boolean, xsSize - 1).map(_ :+ true)
+        val values = Enumerate.sized(boolean, xsSize - 1).map(_ :+ true)
         values.map(_.zip(xs).collect { case (true, x) => x }.toSet)
       } else LazyList.empty
     )
