@@ -1,6 +1,6 @@
 package codes.quine.labo.uchu
 
-import Cardinality._
+import codes.quine.labo.uchu.Cardinality._
 
 /** Cardinality is a cardinality of an enumerable type. */
 sealed abstract class Cardinality extends Product with Serializable { self =>
@@ -8,27 +8,27 @@ sealed abstract class Cardinality extends Product with Serializable { self =>
   /** Computes the addition of two cardinalities. */
   def +(other: Cardinality): Cardinality = (self, other) match {
     case (Fin(n), Fin(m)) => Fin(n + m)
-    case (Inf, _) => Inf
-    case (_, Inf) => Inf
+    case (Inf, _)         => Inf
+    case (_, Inf)         => Inf
   }
 
   /** Computes the addition of this cardinality and the integer value. */
   def +(other: BigInt): Cardinality = self match {
     case Fin(n) => Fin(n + other)
-    case Inf => Inf
+    case Inf    => Inf
   }
 
   /** Computes the multiplication of two cardinalities. */
   def *(other: Cardinality): Cardinality = (self, other) match {
     case (Fin(n), Fin(m)) => Fin(n * m)
-    case (Inf, _) => Inf
-    case (_, Inf) => Inf
+    case (Inf, _)         => Inf
+    case (_, Inf)         => Inf
   }
 
   /** Computes this to the power of the other cardinality. */
   def **(other: Fin): Cardinality = self match {
     case Fin(n) => Fin(n.pow(other.toInt))
-    case Inf  => Inf
+    case Inf    => Inf
   }
 }
 

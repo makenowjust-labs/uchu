@@ -1,6 +1,6 @@
 package codes.quine.labo.uchu
 
-import Cardinality.Inf
+import codes.quine.labo.uchu.Cardinality.Inf
 
 /** Universe is a type-class for enumerable types.
   *
@@ -15,7 +15,9 @@ trait Universe[A] extends Serializable {
   def cardinality: Cardinality
 
   override def toString: String = {
-    val card = try cardinality catch { case _: ArithmeticException => "<error>" }
+    val card =
+      try cardinality
+      catch { case _: ArithmeticException => "<error>" }
     s"Universe.of($enumerate, $card)"
   }
 }

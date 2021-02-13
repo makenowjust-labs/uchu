@@ -1,6 +1,6 @@
 package codes.quine.labo.uchu
 
-import Cardinality._
+import codes.quine.labo.uchu.Cardinality._
 
 class UniverseSuite extends munit.FunSuite {
   test("Universe.apply") {

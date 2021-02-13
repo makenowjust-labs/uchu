@@ -1,6 +1,6 @@
 package codes.quine.labo.uchu
 
-import Cardinality.Fin
+import codes.quine.labo.uchu.Cardinality.Fin
 
 class FiniteSuite extends munit.FunSuite {
   test("Finite.apply") {

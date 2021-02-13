@@ -1,6 +1,6 @@
 package codes.quine.labo.uchu
 
-import Cardinality.Fin
+import codes.quine.labo.uchu.Cardinality.Fin
 
 /** Finite is a type-class for finite types.
   *
@@ -15,7 +15,9 @@ trait Finite[A] extends Universe[A] {
   def size: BigInt = cardinality.size
 
   override def toString: String = {
-    val card = try cardinality catch { case _: ArithmeticException => "<error>" }
+    val card =
+      try cardinality
+      catch { case _: ArithmeticException => "<error>" }
     s"Finite.of($enumerate, $card)"
   }
 }
