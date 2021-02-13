@@ -34,6 +34,7 @@ class EnumSuite extends munit.FunSuite {
   }
 
   test("Enum.map") {
+    assertEquals(Enum.map(LazyList.empty, 0, LazyList(0, 1)), LazyList(Map.empty))
     assertEquals(
       Enum.map(LazyList(0, 1), 2, LazyList(0, 1)),
       LazyList(
@@ -51,6 +52,7 @@ class EnumSuite extends munit.FunSuite {
   }
 
   test("Enum.set") {
+    assertEquals(Enum.set(LazyList.empty, 0), LazyList(Set.empty))
     assertEquals(
       Enum.set(LazyList(0, 1), 2),
       LazyList(
