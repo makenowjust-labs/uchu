@@ -39,4 +39,3 @@ lazy val root = project
     doctestTestFramework := DoctestTestFramework.Munit,
     doctestMarkdownEnabled := true
   )
-
