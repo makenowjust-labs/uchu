@@ -2,7 +2,7 @@
 
 > The Scala Universe
 
-Looks up your value's index, retrieves the value from the index.
+Looks up your index, retrieves you from the index.
 
 ![space cat](https://i.imgur.com/nAnqC.jpeg)
 
