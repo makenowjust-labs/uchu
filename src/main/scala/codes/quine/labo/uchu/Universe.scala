@@ -2,7 +2,7 @@ package codes.quine.labo.uchu
 
 import codes.quine.labo.uchu.Card.Inf
 
-/** Universe is a type-class for enumerable types.
+/** Universe is a type-class for countable types.
   *
   * It is derived from Haskell's [[https://hackage.haskell.org/package/universe universe]] library.
   */

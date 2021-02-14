@@ -25,7 +25,7 @@ lazy val root = project
     console / initialCommands := """
       |import codes.quine.labo.uchu._
       |import codes.quine.labo.uchu.Card._
-      |      """.stripMargin,
+      |""".stripMargin,
     Compile / console / scalacOptions -= "-Wunused",
     Test / console / scalacOptions -= "-Wunused",
     // Set URL mapping of scala standard API for Scaladoc.
@@ -35,6 +35,8 @@ lazy val root = project
       .toMap,
     // Settings for test:
     libraryDependencies += "org.scalameta" %% "munit" % "0.7.21" % Test,
-    testFrameworks += new TestFramework("munit.Framework")
+    testFrameworks += new TestFramework("munit.Framework"),
+    doctestTestFramework := DoctestTestFramework.Munit,
+    doctestMarkdownEnabled := true
   )
 
