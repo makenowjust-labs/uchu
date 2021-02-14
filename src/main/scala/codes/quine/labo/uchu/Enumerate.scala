@@ -4,7 +4,7 @@ package codes.quine.labo.uchu
   *
   * The methods in this are used for implementing [[Universe.enumerate]].
   */
-private[uchu] object Enumerate {
+object Enumerate {
 
   /** Enumerates possible [[Boolean]] values. */
   def boolean: LazyList[Boolean] = LazyList(false, true)
@@ -70,7 +70,7 @@ private[uchu] object Enumerate {
     interleave(xs.map(Left(_)), ys.map(Right(_)))
 
   /** Enumerates table values in diagonal order. */
-  private[uchu] def diagonal[A](table: LazyList[LazyList[A]]): LazyList[A] = {
+  private def diagonal[A](table: LazyList[LazyList[A]]): LazyList[A] = {
     def diagonals(edges: Seq[LazyList[A]], table: LazyList[LazyList[A]]): LazyList[Seq[A]] =
       LazyList.cons(
         edges.flatMap(_.headOption), {
@@ -90,17 +90,17 @@ private[uchu] object Enumerate {
   }
 
   /** Enumerates possible lists which size up to the given parameter in diagonal order. */
-  private[uchu] def sized[A](xs: LazyList[A], size: BigInt): LazyList[List[A]] =
+  private def sized[A](xs: LazyList[A], size: BigInt): LazyList[List[A]] =
     if (size <= 0) LazyList(Nil)
     else LazyList.cons(Nil, tuple2(xs, sized(xs, size - 1)).map { case (x, xs) => x :: xs })
 
   /** Enumerates possible list which sze to the given parameter in diagonal order. */
-  private[uchu] def listN[A](xs: LazyList[A], size: BigInt): LazyList[List[A]] =
+  private def listN[A](xs: LazyList[A], size: BigInt): LazyList[List[A]] =
     if (size <= 0) LazyList(Nil)
     else tuple2(xs, listN(xs, size - 1)).map { case (x, xs) => x :: xs }
 
   /** Enumerates two values with interleaving. */
-  private[uchu] def interleave[A](xs: LazyList[A], ys: LazyList[A]): LazyList[A] =
+  private def interleave[A](xs: LazyList[A], ys: LazyList[A]): LazyList[A] =
     xs.headOption match {
       case Some(x) => LazyList.cons(x, interleave(ys, xs.tail))
       case None    => ys

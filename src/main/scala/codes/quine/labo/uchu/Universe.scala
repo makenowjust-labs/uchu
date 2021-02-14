@@ -15,7 +15,7 @@ trait Universe[A] extends Serializable {
   def cardinality: Cardinality
 
   /** Indexes a value. */
-  def indexOf(x: A): BigInt
+  def indexOf: IndexOf[A]
 
   override def toString: String = {
     val card =
@@ -32,13 +32,16 @@ object Universe {
   @inline def apply[A](implicit A: Universe[A]): Universe[A] = A
 
   /** Builds an instance for an infinite type from a lazy list. */
-  def of[A](xs: => LazyList[A], i: A => BigInt): Universe[A] = of(xs, Inf, i)
+  def of[A](xs: => LazyList[A], indexOf: IndexOf[A]): Universe[A] = of(xs, Inf, indexOf)
 
   /** Builds an instance from a lazy list and its cardinality. */
-  def of[A](xs: => LazyList[A], card: => Cardinality, i: A => BigInt): Universe[A] = new Universe[A] {
-    def enumerate: LazyList[A] = xs
-    def cardinality: Cardinality = card
-    def indexOf(x: A): BigInt = i(x)
+  def of[A](xs: => LazyList[A], card: => Cardinality, indexOf: IndexOf[A]): Universe[A] = {
+    val indexOf_ = indexOf
+    new Universe[A] {
+      def enumerate: LazyList[A] = xs
+      def cardinality: Cardinality = card
+      val indexOf: IndexOf[A] = indexOf_
+    }
   }
 
   /** All finite types are also recursive enumerable. */

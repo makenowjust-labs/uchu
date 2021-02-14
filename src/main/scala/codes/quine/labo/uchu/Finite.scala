@@ -29,24 +29,26 @@ object Finite {
   @inline def apply[A](implicit A: Finite[A]): Finite[A] = A
 
   /** Builds an instance from a small list. */
-  def of[A](xs: LazyList[A], i: A => BigInt): Finite[A] = of(xs, xs.size, i)
+  def of[A](xs: LazyList[A], indexOf: IndexOf[A]): Finite[A] = of(xs, xs.size, indexOf)
 
   /** Builds an instance from a lazy list and its size. */
-  def of[A](xs: => LazyList[A], size: => BigInt, i: A => BigInt): Finite[A] = of(xs, Fin(size), i)
+  def of[A](xs: => LazyList[A], size: => BigInt, indexOf: IndexOf[A]): Finite[A] = of(xs, Fin(size), indexOf)
 
   /** Builds an instance from a lazy list and its cardinality. */
-  def of[A](xs: => LazyList[A], card: => Fin, i: A => BigInt)(implicit dummy: DummyImplicit): Finite[A] =
+  def of[A](xs: => LazyList[A], card: => Fin, indexOf: IndexOf[A])(implicit dummy: DummyImplicit): Finite[A] = {
+    val indexOf_ = indexOf
     new Finite[A] {
       def enumerate: LazyList[A] = xs
       def cardinality: Fin = card
-      def indexOf(x: A): BigInt = i(x)
+      val indexOf: IndexOf[A] = indexOf_
     }
+  }
 
   /** An instance for [[Nothing]]. */
-  implicit def nothing: Finite[Nothing] = of(LazyList.empty, PartialFunction.empty)
+  implicit def nothing: Finite[Nothing] = of[Nothing](LazyList.empty, IndexOf.nothing)
 
   /** An instance for [[Unit]]. */
-  implicit def unit: Finite[Unit] = of(LazyList(()), Function.const(0))
+  implicit def unit: Finite[Unit] = of(LazyList(()), IndexOf.unit)
 
   /** An instance for [[Boolean]]. */
   implicit def boolean: Finite[Boolean] = of(Enumerate.boolean, IndexOf.boolean)
