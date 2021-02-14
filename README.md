@@ -32,13 +32,13 @@ In other words, we can transfer a value via natural number, and can generate a v
 scala> import codes.quine.labo.uchu._
 import codes.quine.labo.uchu._
 
-scala> // Looks up an index of `[1, 2, 3, 4, 5]`.
-scala> Universe[List[Int]].indexOf(List(1, 2, 3, 4, 5))
-res0: N = N(11345428943444822196222)
+scala> // Looks up an index of `List(1, 2, 3)`.
+scala> Universe[List[Int]].indexOf(List(1, 2, 3))
+res0: N = N(71251)
 
 scala> // Then, retrieves this from the index.
-scala> Universe[List[Int]].get(N(BigInt("11345428943444822196222")))
-res1: Option[List[Int]] = Some(List(1, 2, 3, 4, 5))
+scala> Universe[List[Int]].get(N(71251))
+res1: Option[List[Int]] = Some(List(1, 2, 3))
 
 scala> // Of course we can look up larger value's index.
 scala> Universe[List[Int]].indexOf(List.range(0, 100))
