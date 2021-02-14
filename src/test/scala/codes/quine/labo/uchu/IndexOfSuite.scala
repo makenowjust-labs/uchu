@@ -3,6 +3,10 @@ package codes.quine.labo.uchu
 import codes.quine.labo.uchu.Card._
 
 class IndexOfSuite extends munit.FunSuite {
+  test("IndexOf.unit") {
+    assertEquals(IndexOf.unit(()), N.Zero)
+  }
+
   test("IndexOf.boolean") {
     assertEquals(IndexOf.boolean(false), N.Zero)
     assertEquals(IndexOf.boolean(true), N.One)

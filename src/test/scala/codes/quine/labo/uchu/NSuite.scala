@@ -40,6 +40,10 @@ class NSuite extends munit.FunSuite {
     assertEquals(N(4) / 2, N(2))
   }
 
+  test("N#/%") {
+    assertEquals(N(10) /% N(3), (N(3), N(1)))
+  }
+
   test("N#**") {
     assertEquals(N(4) ** N(2), N(16))
     assertEquals(N(4) ** 2, N(16))

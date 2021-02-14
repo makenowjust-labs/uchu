@@ -37,6 +37,12 @@ final case class N(value: BigInt) extends Ordered[N] {
   /** Computes a division. */
   def /(other: Int): N = N(value / other)
 
+  /** Computes a division and reminder at once. */
+  def /%(other: N): (N, N) = {
+    val (div, mod) = value /% other.value
+    (N(div), N(mod))
+  }
+
   /** Computes a power. */
   def **(other: N): N = N(value.pow(other.toInt))
 

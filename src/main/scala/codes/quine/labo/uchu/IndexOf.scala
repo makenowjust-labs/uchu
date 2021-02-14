@@ -85,10 +85,10 @@ object IndexOf {
       }
 
     (cx, cy) match {
-      case (Small(n), Small(m)) => finFin(n, m)
-      case (Small(n), _)        => finInf(n, false)
-      case (_, Small(n))        => finInf(n, true)
-      case (_, _)               => infInf
+      case (Small(nx), Small(ny)) => finFin(nx, ny)
+      case (Small(n), _)          => finInf(n, false)
+      case (_, Small(n))          => finInf(n, true)
+      case (_, _)                 => infInf
     }
   }
 
@@ -108,7 +108,7 @@ object IndexOf {
 
   /** Indexes a map. */
   def map[A, B](ix: IndexOf[A], cx: Fin, iy: IndexOf[B], cy: Card): IndexOf[Map[A, B]] = {
-    val cListLeN = Card.sumOfGeometric(One, cy, cx - 1)
+    val cListLeN = Card.sumOfGeometric(One, cy + 1, cx - 1)
     val iCons = tuple2(listLeN(option(iy), cy + 1, cx - 1), cListLeN, iy, cy)
     IndexOf { map =>
       if (map.isEmpty) N.Zero
@@ -153,21 +153,21 @@ object IndexOf {
     IndexOf {
       case Left(x) =>
         cy match {
-          case Small(m) =>
-            val i = ix(x)
-            if (i >= m) m * 2 + (i - m) else i * 2
+          case Small(ny) =>
+            val kx = ix(x)
+            if (kx >= ny) ny * 2 + (kx - ny) else kx * 2
           case _ => ix(x) * 2
         }
       case Right(y) =>
         cx match {
-          case Small(n) =>
-            val j = iy(y)
-            if (j >= n) n * 2 + (j - n) else j * 2 + 1
+          case Small(nx) =>
+            val ky = iy(y)
+            if (ky >= nx) nx * 2 + (ky - nx) else ky * 2 + 1
           case _ => iy(y) * 2 + 1
         }
     }
 
-  /** Indexes a list which size up to the given parameter. */
+  /** Indexes a list which sizes up to the given parameter. */
   private def listLeN[A](i: IndexOf[A], c: Card, size: Fin): IndexOf[List[A]] =
     if (size.isZero) IndexOf(_ => N.Zero)
     else {
@@ -179,7 +179,7 @@ object IndexOf {
       }
     }
 
-  /** Indexes a list which size to the given parameter. */
+  /** Indexes a list which sizes to the given parameter. */
   private def listN[A](i: IndexOf[A], c: Card, size: Fin): IndexOf[List[A]] =
     if (size.isZero) IndexOf(_ => N.Zero)
     else {

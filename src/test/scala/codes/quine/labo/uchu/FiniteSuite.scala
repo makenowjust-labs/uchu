@@ -10,15 +10,19 @@ class FiniteSuite extends munit.FunSuite {
 
   test("Finite.of") {
     val iInt = IndexOf((n: Int) => N(n))
-    assertEquals(Finite.of(LazyList(0, 1), iInt).enumerate, LazyList(0, 1))
-    assertEquals(Finite.of(LazyList(0, 1), iInt).cardinality, Two)
-    assertEquals(Finite.of(LazyList(0, 1), iInt).indexOf(0), N.Zero)
-    assertEquals(Finite.of(LazyList(0, 1), N.Two, iInt).enumerate, LazyList(0, 1))
-    assertEquals(Finite.of(LazyList(0, 1), N.Two, iInt).cardinality, Two)
-    assertEquals(Finite.of(LazyList(0, 1), N.Two, iInt).indexOf(0), N.Zero)
-    assertEquals(Finite.of(LazyList(0, 1), Two, iInt).enumerate, LazyList(0, 1))
-    assertEquals(Finite.of(LazyList(0, 1), Two, iInt).cardinality, Two)
-    assertEquals(Finite.of(LazyList(0, 1), Two, iInt).indexOf(0), N.Zero)
+    val gInt = Get(k => Some(k.toInt))
+    assertEquals(Finite.of(LazyList(0, 1), iInt, gInt).enumerate, LazyList(0, 1))
+    assertEquals(Finite.of(LazyList(0, 1), iInt, gInt).cardinality, Two)
+    assertEquals(Finite.of(LazyList(0, 1), iInt, gInt).indexOf(0), N.Zero)
+    assertEquals(Finite.of(LazyList(0, 1), iInt, gInt).get(N.Zero), Some(0))
+    assertEquals(Finite.of(LazyList(0, 1), N.Two, iInt, gInt).enumerate, LazyList(0, 1))
+    assertEquals(Finite.of(LazyList(0, 1), N.Two, iInt, gInt).cardinality, Two)
+    assertEquals(Finite.of(LazyList(0, 1), N.Two, iInt, gInt).indexOf(0), N.Zero)
+    assertEquals(Finite.of(LazyList(0, 1), N.Two, iInt, gInt).get(N.Zero), Some(0))
+    assertEquals(Finite.of(LazyList(0, 1), Two, iInt, gInt).enumerate, LazyList(0, 1))
+    assertEquals(Finite.of(LazyList(0, 1), Two, iInt, gInt).cardinality, Two)
+    assertEquals(Finite.of(LazyList(0, 1), Two, iInt, gInt).indexOf(0), N.Zero)
+    assertEquals(Finite.of(LazyList(0, 1), Two, iInt, gInt).get(N.Zero), Some(0))
   }
 
   test("Finite.nothing") {
