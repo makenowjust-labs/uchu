@@ -1,5 +1,7 @@
 package codes.quine.labo.uchu
 
+import codes.quine.labo.uchu.Card._
+
 class EnumerateSuite extends munit.FunSuite {
   test("Enumerate.boolean") {
     assertEquals(Enumerate.boolean, LazyList(false, true))
@@ -34,9 +36,9 @@ class EnumerateSuite extends munit.FunSuite {
   }
 
   test("Enumerate.map") {
-    assertEquals(Enumerate.map(LazyList.empty, 0, LazyList(0, 1)), LazyList(Map.empty))
+    assertEquals(Enumerate.map(LazyList.empty, Zero, LazyList(0, 1)), LazyList(Map.empty))
     assertEquals(
-      Enumerate.map(LazyList(0, 1), 2, LazyList(0, 1)),
+      Enumerate.map(LazyList(0, 1), Two, LazyList(0, 1)),
       LazyList(
         Map.empty[Int, Int],
         Map(0 -> 0),
@@ -52,9 +54,9 @@ class EnumerateSuite extends munit.FunSuite {
   }
 
   test("Enumerate.set") {
-    assertEquals(Enumerate.set(LazyList.empty, 0), LazyList(Set.empty))
+    assertEquals(Enumerate.set(LazyList.empty, Zero), LazyList(Set.empty))
     assertEquals(
-      Enumerate.set(LazyList(0, 1), 2),
+      Enumerate.set(LazyList(0, 1), Two),
       LazyList(
         Set.empty[Int],
         Set(0),
@@ -66,7 +68,7 @@ class EnumerateSuite extends munit.FunSuite {
 
   test("Enumerate.function1") {
     assertEquals(
-      Enumerate.function1(LazyList(0, 1), 2, LazyList(0, 1)),
+      Enumerate.function1(LazyList(0, 1), Two, LazyList(0, 1)),
       LazyList(
         Map(0 -> 0, 1 -> 0),
         Map(0 -> 1, 1 -> 0),
@@ -82,30 +84,5 @@ class EnumerateSuite extends munit.FunSuite {
 
   test("Enumerate.either") {
     assertEquals(Enumerate.either(LazyList(0, 1), LazyList(0, 1)), LazyList(Left(0), Right(0), Left(1), Right(1)))
-  }
-
-  test("Enumerate.diagonal") {
-    assertEquals(
-      Enumerate.diagonal(LazyList(LazyList((0, 0), (0, 1)), LazyList((1, 0), (1, 1)))),
-      LazyList((0, 0), (1, 0), (0, 1), (1, 1))
-    )
-  }
-
-  test("Enumerate.sized") {
-    assertEquals(
-      Enumerate.sized(LazyList(0, 1), 2),
-      LazyList(List.empty, List(0), List(1), List(0, 0), List(1, 0), List(0, 1), List(1, 1))
-    )
-  }
-
-  test("Enumerate.listN") {
-    assertEquals(
-      Enumerate.listN(LazyList(0, 1), 2),
-      LazyList(List(0, 0), List(1, 0), List(0, 1), List(1, 1))
-    )
-  }
-
-  test("Enumerate.interleave") {
-    assertEquals(Enumerate.interleave(LazyList(0, 1), LazyList(2, 3)), LazyList(0, 2, 1, 3))
   }
 }

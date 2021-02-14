@@ -1,6 +1,6 @@
 package codes.quine.labo.uchu
 
-import codes.quine.labo.uchu.Cardinality._
+import codes.quine.labo.uchu.Card._
 
 class UniverseSuite extends munit.FunSuite {
   test("Universe.apply") {
@@ -8,17 +8,18 @@ class UniverseSuite extends munit.FunSuite {
   }
 
   test("Universe.of") {
-    assertEquals(Universe.of(LazyList.from(0), BigInt(_: Int)).enumerate.take(2), LazyList(0, 1))
-    assertEquals(Universe.of(LazyList.from(0), BigInt(_: Int)).cardinality, Inf)
-    assertEquals(Universe.of(LazyList.from(0), BigInt(_: Int)).indexOf(0), 0: BigInt)
-    assertEquals(Universe.of(LazyList(0, 1), Fin(2), BigInt(_: Int)).enumerate, LazyList(0, 1))
-    assertEquals(Universe.of(LazyList(0, 1), Fin(2), BigInt(_: Int)).cardinality, Fin(2))
-    assertEquals(Universe.of(LazyList(0, 1), Fin(2), BigInt(_: Int)).indexOf(0), 0: BigInt)
+    val iInt = IndexOf((n: Int) => N(n))
+    assertEquals(Universe.of(LazyList.from(0), iInt).enumerate.take(2), LazyList(0, 1))
+    assertEquals(Universe.of(LazyList.from(0), iInt).cardinality, Inf)
+    assertEquals(Universe.of(LazyList.from(0), iInt).indexOf(0), N.Zero)
+    assertEquals(Universe.of(LazyList(0, 1), Two, iInt).enumerate, LazyList(0, 1))
+    assertEquals(Universe.of(LazyList(0, 1), Two, iInt).cardinality, Two)
+    assertEquals(Universe.of(LazyList(0, 1), Two, iInt).indexOf(0), N.Zero)
   }
 
   test("Universe.finite") {
     assertEquals(Universe.finite[Unit].enumerate, LazyList(()))
-    assertEquals(Universe.finite[Unit].cardinality, Fin(1))
+    assertEquals(Universe.finite[Unit].cardinality, One)
   }
 
   test("Universe.bigInt") {
@@ -32,7 +33,7 @@ class UniverseSuite extends munit.FunSuite {
       LazyList[(Boolean, BigInt)]((false, 0), (true, 0), (false, -1), (true, -1))
     )
     assertEquals(Universe.tuple2(Universe[Boolean], Universe[BigInt]).cardinality, Inf)
-    assertEquals(Universe.tuple2(Universe[Boolean], Universe[Boolean]).cardinality, Fin(4))
+    assertEquals(Universe.tuple2(Universe[Boolean], Universe[Boolean]).cardinality, Small(4))
   }
 
   test("Universe.list") {
@@ -49,7 +50,7 @@ class UniverseSuite extends munit.FunSuite {
       LazyList[Map[Boolean, BigInt]](Map.empty, Map(false -> 0), Map(true -> 0), Map(false -> -1))
     )
     assertEquals(Universe.map(Finite[Boolean], Universe[BigInt]).cardinality, Inf)
-    assertEquals(Universe.map(Finite[Boolean], Universe[Boolean]).cardinality, Fin(9))
+    assertEquals(Universe.map(Finite[Boolean], Universe[Boolean]).cardinality, Small(9))
   }
 
   test("Universe.option") {
@@ -58,7 +59,7 @@ class UniverseSuite extends munit.FunSuite {
       LazyList[Option[BigInt]](None, Some(0), Some(-1), Some(1))
     )
     assertEquals(Universe.option(Universe[BigInt]).cardinality, Inf)
-    assertEquals(Universe.option(Universe[Boolean]).cardinality, Fin(3))
+    assertEquals(Universe.option(Universe[Boolean]).cardinality, Small(3))
   }
 
   test("Universe.either") {
@@ -67,7 +68,7 @@ class UniverseSuite extends munit.FunSuite {
       LazyList[Either[Boolean, BigInt]](Left(false), Right(0), Left(true), Right(-1))
     )
     assertEquals(Universe.either(Universe[Boolean], Universe[BigInt]).cardinality, Inf)
-    assertEquals(Universe.either(Universe[Boolean], Universe[Boolean]).cardinality, Fin(4))
+    assertEquals(Universe.either(Universe[Boolean], Universe[Boolean]).cardinality, Small(4))
   }
 
   test("Universe.function1") {
@@ -81,7 +82,7 @@ class UniverseSuite extends munit.FunSuite {
       )
     )
     assertEquals(Universe.function1(Finite[Boolean], Universe[BigInt]).cardinality, Inf)
-    assertEquals(Universe.function1(Finite[Boolean], Universe[Boolean]).cardinality, Fin(4))
+    assertEquals(Universe.function1(Finite[Boolean], Universe[Boolean]).cardinality, Small(4))
   }
 
   test("Universe.partialFunction") {
@@ -90,6 +91,6 @@ class UniverseSuite extends munit.FunSuite {
       LazyList[Map[Boolean, BigInt]](Map.empty, Map(false -> 0), Map(true -> 0), Map(false -> -1))
     )
     assertEquals(Universe.partialFunction(Finite[Boolean], Universe[BigInt]).cardinality, Inf)
-    assertEquals(Universe.partialFunction(Finite[Boolean], Universe[Boolean]).cardinality, Fin(9))
+    assertEquals(Universe.partialFunction(Finite[Boolean], Universe[Boolean]).cardinality, Small(9))
   }
 }

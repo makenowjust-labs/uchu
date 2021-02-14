@@ -1,60 +1,61 @@
 package codes.quine.labo.uchu
 
-import codes.quine.labo.uchu.Cardinality.Fin
+import codes.quine.labo.uchu.Card._
 
 class FiniteSuite extends munit.FunSuite {
   test("Finite.apply") {
     assertEquals(Finite[Boolean].enumerate, LazyList(false, true))
-    assertEquals(Finite[Boolean].size, 2: BigInt)
+    assertEquals(Finite[Boolean].cardinality, Two)
   }
 
   test("Finite.of") {
-    assertEquals(Finite.of(LazyList(0, 1), BigInt(_: Int)).enumerate, LazyList(0, 1))
-    assertEquals(Finite.of(LazyList(0, 1), BigInt(_: Int)).size, 2: BigInt)
-    assertEquals(Finite.of(LazyList(0, 1), BigInt(_: Int)).indexOf(0), 0: BigInt)
-    assertEquals(Finite.of(LazyList(0, 1), 2, BigInt(_: Int)).enumerate, LazyList(0, 1))
-    assertEquals(Finite.of(LazyList(0, 1), 2, BigInt(_: Int)).size, 2: BigInt)
-    assertEquals(Finite.of(LazyList(0, 1), 2, BigInt(_: Int)).indexOf(0), 0: BigInt)
-    assertEquals(Finite.of(LazyList(0, 1), Fin(2), BigInt(_: Int)).enumerate, LazyList(0, 1))
-    assertEquals(Finite.of(LazyList(0, 1), Fin(2), BigInt(_: Int)).size, 2: BigInt)
-    assertEquals(Finite.of(LazyList(0, 1), Fin(2), BigInt(_: Int)).indexOf(0), 0: BigInt)
+    val iInt = IndexOf((n: Int) => N(n))
+    assertEquals(Finite.of(LazyList(0, 1), iInt).enumerate, LazyList(0, 1))
+    assertEquals(Finite.of(LazyList(0, 1), iInt).cardinality, Two)
+    assertEquals(Finite.of(LazyList(0, 1), iInt).indexOf(0), N.Zero)
+    assertEquals(Finite.of(LazyList(0, 1), N.Two, iInt).enumerate, LazyList(0, 1))
+    assertEquals(Finite.of(LazyList(0, 1), N.Two, iInt).cardinality, Two)
+    assertEquals(Finite.of(LazyList(0, 1), N.Two, iInt).indexOf(0), N.Zero)
+    assertEquals(Finite.of(LazyList(0, 1), Two, iInt).enumerate, LazyList(0, 1))
+    assertEquals(Finite.of(LazyList(0, 1), Two, iInt).cardinality, Two)
+    assertEquals(Finite.of(LazyList(0, 1), Two, iInt).indexOf(0), N.Zero)
   }
 
   test("Finite.nothing") {
     assertEquals(Finite.nothing.enumerate, LazyList.empty)
-    assertEquals(Finite.nothing.size, 0: BigInt)
+    assertEquals(Finite.nothing.cardinality, Zero)
   }
 
   test("Finite.unit") {
     assertEquals(Finite.unit.enumerate, LazyList(()))
-    assertEquals(Finite.unit.size, 1: BigInt)
+    assertEquals(Finite.unit.cardinality, One)
   }
 
   test("Finite.boolean") {
     assertEquals(Finite.boolean.enumerate, LazyList(false, true))
-    assertEquals(Finite.boolean.size, 2: BigInt)
+    assertEquals(Finite.boolean.cardinality, Two)
   }
 
   test("Finite.byte") {
     assertEquals(Finite.byte.enumerate.take(5), LazyList[Byte](0, -1, 1, -2, 2))
     assertEquals(Finite.byte.enumerate.size, 256)
-    assertEquals(Finite.byte.size, 256: BigInt)
+    assertEquals(Finite.byte.cardinality, Small(256))
   }
 
   test("Finite.short") {
     assertEquals(Finite.short.enumerate.take(5), LazyList[Short](0, -1, 1, -2, 2))
     assertEquals(Finite.short.enumerate.size, 65536)
-    assertEquals(Finite.short.size, 65536: BigInt)
+    assertEquals(Finite.short.cardinality, Small(65536))
   }
 
   test("Finite.int") {
     assertEquals(Finite.int.enumerate.take(5), LazyList(0, -1, 1, -2, 2))
-    assertEquals(Finite.int.size, (2: BigInt).pow(32))
+    assertEquals(Finite.int.cardinality, Small(N.Two ** 32))
   }
 
   test("Finite.long") {
     assertEquals(Finite.long.enumerate.take(5), LazyList[Long](0, -1, 1, -2, 2))
-    assertEquals(Finite.long.size, (2: BigInt).pow(64))
+    assertEquals(Finite.long.cardinality, Small(N.Two ** 64))
   }
 
   test("Finite.tuple2") {
@@ -63,7 +64,7 @@ class FiniteSuite extends munit.FunSuite {
       LazyList[(Byte, Byte)]((0, 0), (-1, 0), (0, -1), (1, 0), (-1, -1))
     )
     assertEquals(Finite.tuple2(Finite[Byte], Finite[Byte]).enumerate.size, 65536)
-    assertEquals(Finite.tuple2(Finite[Byte], Finite[Byte]).size, 65536: BigInt)
+    assertEquals(Finite.tuple2(Finite[Byte], Finite[Byte]).cardinality, Small(65536))
   }
 
   test("Finite.option") {
@@ -72,7 +73,7 @@ class FiniteSuite extends munit.FunSuite {
       LazyList[Option[Byte]](None, Some(0), Some(-1), Some(1), Some(-2))
     )
     assertEquals(Finite.option(Finite[Byte]).enumerate.size, 257)
-    assertEquals(Finite.option(Finite[Byte]).size, 257: BigInt)
+    assertEquals(Finite.option(Finite[Byte]).cardinality, Small(257))
   }
 
   test("Finite.either") {
@@ -81,7 +82,7 @@ class FiniteSuite extends munit.FunSuite {
       LazyList[Either[Byte, Byte]](Left(0), Right(0), Left(-1), Right(-1), Left(1))
     )
     assertEquals(Finite.either(Finite[Byte], Finite[Byte]).enumerate.size, 512)
-    assertEquals(Finite.either(Finite[Byte], Finite[Byte]).size, 512: BigInt)
+    assertEquals(Finite.either(Finite[Byte], Finite[Byte]).cardinality, Small(512))
   }
 
   test("Finite.map") {
@@ -96,7 +97,7 @@ class FiniteSuite extends munit.FunSuite {
       )
     )
     assertEquals(Finite.map(Finite[Boolean], Finite[Boolean]).enumerate.size, 9)
-    assertEquals(Finite.map(Finite[Boolean], Finite[Boolean]).size, 9: BigInt)
+    assertEquals(Finite.map(Finite[Boolean], Finite[Boolean]).cardinality, Small(9))
   }
 
   test("Finite.set") {
@@ -104,7 +105,7 @@ class FiniteSuite extends munit.FunSuite {
       Finite.set(Finite[Boolean]).enumerate,
       LazyList[Set[Boolean]](Set.empty, Set(false), Set(true), Set(false, true))
     )
-    assertEquals(Finite.set(Finite[Boolean]).size, 4: BigInt)
+    assertEquals(Finite.set(Finite[Boolean]).cardinality, Small(4))
   }
 
   test("Finite.function1") {
@@ -117,7 +118,7 @@ class FiniteSuite extends munit.FunSuite {
         Map(false -> true, true -> true)
       )
     )
-    assertEquals(Finite.function1(Finite[Boolean], Finite[Boolean]).size, 4: BigInt)
+    assertEquals(Finite.function1(Finite[Boolean], Finite[Boolean]).cardinality, Small(4))
   }
 
   test("Finite.partialFunction") {
@@ -132,7 +133,6 @@ class FiniteSuite extends munit.FunSuite {
       )
     )
     assertEquals(Finite.partialFunction(Finite[Boolean], Finite[Boolean]).enumerate.size, 9)
-    assertEquals(Finite.partialFunction(Finite[Boolean], Finite[Boolean]).size, 9: BigInt)
-
+    assertEquals(Finite.partialFunction(Finite[Boolean], Finite[Boolean]).cardinality, Small(9))
   }
 }

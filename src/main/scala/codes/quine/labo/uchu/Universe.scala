@@ -1,6 +1,6 @@
 package codes.quine.labo.uchu
 
-import codes.quine.labo.uchu.Cardinality.Inf
+import codes.quine.labo.uchu.Card.Inf
 
 /** Universe is a type-class for enumerable types.
   *
@@ -11,18 +11,13 @@ trait Universe[A] extends Serializable {
   /** Enumerates all possible values of the type. */
   def enumerate: LazyList[A]
 
-  /** A cardinality of the type. */
-  def cardinality: Cardinality
-
   /** Indexes a value. */
   def indexOf: IndexOf[A]
 
-  override def toString: String = {
-    val card =
-      try cardinality
-      catch { case _: ArithmeticException => "<error>" }
-    s"Universe.of($enumerate, $card)"
-  }
+  /** A cardinality of the type. */
+  def cardinality: Card
+
+  override def toString: String = s"Universe.of($enumerate, $cardinality)"
 }
 
 /** Universe utilities and instances. */
@@ -32,16 +27,13 @@ object Universe {
   @inline def apply[A](implicit A: Universe[A]): Universe[A] = A
 
   /** Builds an instance for an infinite type from a lazy list. */
-  def of[A](xs: => LazyList[A], indexOf: IndexOf[A]): Universe[A] = of(xs, Inf, indexOf)
+  def of[A](xs: => LazyList[A], i: IndexOf[A]): Universe[A] = of(xs, Inf, i)
 
   /** Builds an instance from a lazy list and its cardinality. */
-  def of[A](xs: => LazyList[A], card: => Cardinality, indexOf: IndexOf[A]): Universe[A] = {
-    val indexOf_ = indexOf
-    new Universe[A] {
-      def enumerate: LazyList[A] = xs
-      def cardinality: Cardinality = card
-      val indexOf: IndexOf[A] = indexOf_
-    }
+  def of[A](xs: => LazyList[A], card: => Card, i: IndexOf[A]): Universe[A] = new Universe[A] {
+    def enumerate: LazyList[A] = xs
+    def cardinality: Card = card
+    val indexOf: IndexOf[A] = i
   }
 
   /** All finite types are also recursive enumerable. */
@@ -67,7 +59,7 @@ object Universe {
 
   /** An instance for [[Map]]. */
   implicit def map[A, B](implicit A: Finite[A], B: Universe[B]): Universe[Map[A, B]] = of(
-    Enumerate.map(A.enumerate, A.size, B.enumerate),
+    Enumerate.map(A.enumerate, A.cardinality, B.enumerate),
     (B.cardinality + 1) ** A.cardinality,
     IndexOf.map(A.indexOf, A.cardinality, B.indexOf, B.cardinality)
   )
@@ -88,15 +80,15 @@ object Universe {
 
   /** An instance for [[Function1]]. */
   implicit def function1[A, B](implicit A: Finite[A], B: Universe[B]): Universe[A => B] = of(
-    Enumerate.function1(A.enumerate, A.size, B.enumerate),
+    Enumerate.function1(A.enumerate, A.cardinality, B.enumerate),
     B.cardinality ** A.cardinality,
     IndexOf.function1(A.enumerate, A.cardinality, B.indexOf, B.cardinality)
   )
 
   /** An instance for [[PartialFunction]]. It is same as [[Universe.map]] internally. */
   implicit def partialFunction[A, B](implicit A: Finite[A], B: Universe[B]): Universe[PartialFunction[A, B]] = of(
-    Enumerate.map(A.enumerate, A.cardinality.size, B.enumerate),
+    Enumerate.map(A.enumerate, A.cardinality, B.enumerate),
     (B.cardinality + 1) ** A.cardinality,
-    IndexOf.partialFunction(A.indexOf, A.enumerate, A.cardinality, B.indexOf, B.cardinality)
+    IndexOf.partialFunction(A.enumerate, A.indexOf, A.cardinality, B.indexOf, B.cardinality)
   )
 }

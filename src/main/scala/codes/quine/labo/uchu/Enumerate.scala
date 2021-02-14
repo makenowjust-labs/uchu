@@ -1,5 +1,7 @@
 package codes.quine.labo.uchu
 
+import codes.quine.labo.uchu.Card._
+
 /** Enum is utilities for enumerating possible values.
   *
   * The methods in this are used for implementing [[Universe.enumerate]].
@@ -38,28 +40,23 @@ object Enumerate {
     LazyList.cons(Nil, tuple2(xs, list(xs)).map { case (x, xs) => x :: xs })
 
   /** Enumerates possible maps in diagonal order. */
-  def map[A, B](xs: LazyList[A], xsSize: BigInt, ys: LazyList[B]): LazyList[Map[A, B]] =
+  def map[A, B](xs: LazyList[A], cx: Fin, ys: LazyList[B]): LazyList[Map[A, B]] =
     LazyList.cons(
       Map.empty,
-      if (xsSize > 0) {
-        val values = tuple2(sized(option(ys), xsSize - 1), ys).map { case (ys, y) => ys :+ Some(y) }
+      if (cx.isZero) LazyList.empty
+      else {
+        val values = tuple2(sized(option(ys), cx - 1), ys).map { case (ys, y) => ys :+ Some(y) }
         values.map(_.zip(xs).collect { case (Some(y), x) => (x, y) }.toMap)
-      } else LazyList.empty
+      }
     )
 
   /** Enumerates possible sets in diagonal order. */
-  def set[A](xs: LazyList[A], xsSize: BigInt): LazyList[Set[A]] =
-    LazyList.cons(
-      Set.empty,
-      if (xsSize > 0) {
-        val values = Enumerate.sized(boolean, xsSize - 1).map(_ :+ true)
-        values.map(_.zip(xs).collect { case (true, x) => x }.toSet)
-      } else LazyList.empty
-    )
+  def set[A](xs: LazyList[A], c: Fin): LazyList[Set[A]] =
+    natural.takeWhile(n => Small(n.bitSize) <= c).map(_.bits.zip(xs).collect { case (true, v) => v }.toSet)
 
   /** Enumerates possible functions in diagonal order. */
-  def function1[A, B](xs: LazyList[A], xsSize: BigInt, ys: LazyList[B]): LazyList[A => B] =
-    listN(ys, xsSize).map(_.zip(xs).map { case (y, x) => (x, y) }.toMap)
+  def function1[A, B](xs: LazyList[A], cx: Fin, ys: LazyList[B]): LazyList[A => B] =
+    listN(ys, cx).map(_.zip(xs).map(_.swap).toMap)
 
   /** Enumerates possible optional values. */
   def option[A](xs: LazyList[A]): LazyList[Option[A]] =
@@ -68,6 +65,9 @@ object Enumerate {
   /** Enumerates possible either values. */
   def either[A, B](xs: LazyList[A], ys: LazyList[B]): LazyList[Either[A, B]] =
     interleave(xs.map(Left(_)), ys.map(Right(_)))
+
+  /** Enumerates natural numbers. */
+  private def natural: LazyList[N] = LazyList.iterate(N.Zero)(_ + 1)
 
   /** Enumerates table values in diagonal order. */
   private def diagonal[A](table: LazyList[LazyList[A]]): LazyList[A] = {
@@ -90,13 +90,13 @@ object Enumerate {
   }
 
   /** Enumerates possible lists which size up to the given parameter in diagonal order. */
-  private def sized[A](xs: LazyList[A], size: BigInt): LazyList[List[A]] =
-    if (size <= 0) LazyList(Nil)
+  private def sized[A](xs: LazyList[A], size: Fin): LazyList[List[A]] =
+    if (size.isZero) LazyList(Nil)
     else LazyList.cons(Nil, tuple2(xs, sized(xs, size - 1)).map { case (x, xs) => x :: xs })
 
   /** Enumerates possible list which sze to the given parameter in diagonal order. */
-  private def listN[A](xs: LazyList[A], size: BigInt): LazyList[List[A]] =
-    if (size <= 0) LazyList(Nil)
+  private def listN[A](xs: LazyList[A], size: Fin): LazyList[List[A]] =
+    if (size.isZero) LazyList(Nil)
     else tuple2(xs, listN(xs, size - 1)).map { case (x, xs) => x :: xs }
 
   /** Enumerates two values with interleaving. */
