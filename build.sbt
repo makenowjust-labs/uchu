@@ -24,7 +24,8 @@ lazy val root = project
     name := "uchu",
     console / initialCommands := """
       |import codes.quine.labo.uchu._
-      """.stripMargin,
+      |import codes.quine.labo.uchu.Card._
+      |      """.stripMargin,
     Compile / console / scalacOptions -= "-Wunused",
     Test / console / scalacOptions -= "-Wunused",
     // Set URL mapping of scala standard API for Scaladoc.
