@@ -78,10 +78,10 @@ class UniverseSuite extends munit.FunSuite {
     assertEquals(
       Universe.function1(Finite[Boolean], Universe[BigInt]).enumerate.take(4),
       LazyList[Map[Boolean, BigInt]](
-        Map(false -> 0, true -> 0),
-        Map(false -> -1, true -> 0),
-        Map(false -> 0, true -> -1),
-        Map(false -> 1, true -> 0)
+        Map.empty[Boolean, BigInt],
+        Map(false -> -1),
+        Map(true -> -1),
+        Map(false -> 1)
       )
     )
     assertEquals(Universe.function1(Finite[Boolean], Universe[BigInt]).cardinality, Inf)

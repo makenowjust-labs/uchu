@@ -104,8 +104,8 @@ object Finite {
   implicit def function1[A, B](implicit A: Finite[A], B: Finite[B]): Finite[A => B] = of(
     Enumerate.function1(A.enumerate, A.cardinality, B.enumerate),
     B.cardinality ** A.cardinality,
-    IndexOf.function1(A.enumerate, A.cardinality, B.indexOf, B.cardinality),
-    Get.function1(A.enumerate, A.cardinality, B.get, B.cardinality)
+    IndexOf.function1(A.enumerate, A.indexOf, A.cardinality, B.indexOf, B.cardinality),
+    Get.function1(A.get, A.cardinality, B.get, B.cardinality)
   )
 
   /** An instance for [[PartialFunction]]. It is same as [[Finite.map]] internally. */

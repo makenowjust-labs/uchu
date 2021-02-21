@@ -45,7 +45,7 @@ object Enumerate {
       Map.empty,
       if (cx.isZero) LazyList.empty
       else {
-        val values = tuple2(sized(option(ys), cx - 1), ys).map { case (ys, y) => ys :+ Some(y) }
+        val values = tuple2(listLeN(option(ys), cx - 1), ys).map { case (ys, y) => ys :+ Some(y) }
         values.map(_.zip(xs).collect { case (Some(y), x) => (x, y) }.toMap)
       }
     )
@@ -56,7 +56,10 @@ object Enumerate {
 
   /** Enumerates possible functions in diagonal order. */
   def function1[A, B](xs: LazyList[A], cx: Fin, ys: LazyList[B]): LazyList[A => B] =
-    listN(ys, cx).map(_.zip(xs).map(_.swap).toMap)
+    ys.headOption match {
+      case Some(y0) => map(xs, cx, ys.tail).map(_.withDefaultValue(y0))
+      case None     => LazyList(Map.empty)
+    }
 
   /** Enumerates possible optional values. */
   def option[A](xs: LazyList[A]): LazyList[Option[A]] =
@@ -90,14 +93,9 @@ object Enumerate {
   }
 
   /** Enumerates possible lists which size up to the given parameter in diagonal order. */
-  private def sized[A](xs: LazyList[A], size: Fin): LazyList[List[A]] =
+  private def listLeN[A](xs: LazyList[A], size: Fin): LazyList[List[A]] =
     if (size.isZero) LazyList(Nil)
-    else LazyList.cons(Nil, tuple2(xs, sized(xs, size - 1)).map { case (x, xs) => x :: xs })
-
-  /** Enumerates possible list which sze to the given parameter in diagonal order. */
-  private def listN[A](xs: LazyList[A], size: Fin): LazyList[List[A]] =
-    if (size.isZero) LazyList(Nil)
-    else tuple2(xs, listN(xs, size - 1)).map { case (x, xs) => x :: xs }
+    else LazyList.cons(Nil, tuple2(xs, listLeN(xs, size - 1)).map { case (x, xs) => x :: xs })
 
   /** Enumerates two values with interleaving. */
   private def interleave[A](xs: LazyList[A], ys: LazyList[A]): LazyList[A] =

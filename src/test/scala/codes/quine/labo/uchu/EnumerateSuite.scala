@@ -70,9 +70,9 @@ class EnumerateSuite extends munit.FunSuite {
     assertEquals(
       Enumerate.function1(LazyList(0, 1), Two, LazyList(0, 1)),
       LazyList(
-        Map(0 -> 0, 1 -> 0),
-        Map(0 -> 1, 1 -> 0),
-        Map(0 -> 0, 1 -> 1),
+        Map.empty[Int, Int],
+        Map(0 -> 1),
+        Map(1 -> 1),
         Map(0 -> 1, 1 -> 1)
       )
     )

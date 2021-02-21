@@ -116,9 +116,9 @@ class FiniteSuite extends munit.FunSuite {
     assertEquals(
       Finite.function1(Finite[Boolean], Finite[Boolean]).enumerate,
       LazyList(
-        Map(false -> false, true -> false),
-        Map(false -> true, true -> false),
-        Map(false -> false, true -> true),
+        Map.empty[Boolean, Boolean],
+        Map(false -> true),
+        Map(true -> true),
         Map(false -> true, true -> true)
       )
     )

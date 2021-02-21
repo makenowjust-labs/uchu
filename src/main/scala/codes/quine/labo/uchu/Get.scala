@@ -132,7 +132,7 @@ object Get {
 
   /** Gets a map from an index. */
   def map[A, B](gx: Get[A], cx: Fin, gy: Get[B], cy: Card): Get[Map[A, B]] = {
-    val cListLeN = Card.sumOfGeometric(One, cy + 1, cx - 1)
+    val cListLeN = Card.sumOfGeometric(One, cy + 1, cx)
     val gCons = tuple2(listLeN(option(gy), cy + 1, cx - 1), cListLeN, gy, cy)
     Get { k =>
       if (k == N.Zero) Some(Map.empty)
@@ -146,10 +146,13 @@ object Get {
   }
 
   /** Gets a function from an index. */
-  def function1[A, B](xs: LazyList[A], cx: Fin, gy: Get[B], cy: Card): Get[A => B] = {
-    val gListN = listN(gy, cy, cx)
-    Get { k => gListN(k).map(_.zip(xs).map(_.swap).toMap) }
-  }
+  def function1[A, B](gx: Get[A], cx: Fin, gy: Get[B], cy: Card): Get[A => B] =
+    gy(N.Zero) match {
+      case Some(y0) =>
+        val gMap = map(gx, cx, Get(k => gy(k + 1)), cy - 1)
+        Get(k => gMap(k).map(_.withDefaultValue(y0)))
+      case None => Get(k => if (k == N.Zero) Some(Map.empty) else None)
+    }
 
   /** Gets a partial function from an index. */
   def partialFunction[A, B](gx: Get[A], cx: Fin, gy: Get[B], cy: Card): Get[PartialFunction[A, B]] = {
@@ -209,14 +212,5 @@ object Get {
         if (k == N.Zero) Some(Nil)
         else gCons(k - 1).map { case (x, xs) => x :: xs }
       }
-    }
-
-  /** Gets a list which sizes to the given parameter from an index. */
-  private def listN[A](g: Get[A], c: Card, size: Fin): Get[List[A]] =
-    if (size.isZero) Get(k => if (k == N.Zero) Some(Nil) else None)
-    else {
-      val cListN = c ** (size - 1)
-      val gCons = tuple2(g, c, delay(listN(g, c, size - 1)), cListN)
-      Get { k => gCons(k).map { case (x, xs) => x :: xs } }
     }
 }

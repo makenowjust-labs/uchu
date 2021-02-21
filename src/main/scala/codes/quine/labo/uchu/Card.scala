@@ -77,13 +77,14 @@ object Card {
   /** Computes a sum of `n` terms of geometric series
     * with the initial value `a` and the common ration `r`.
     */
-  def sumOfGeometric(a: Fin, r: Card, n: Fin): Card = {
-    require(r != One)
-    (r, r ** n) match {
-      case (Small(r), Small(rn)) => a * Small(N((1 - rn.value) / (1 - r.value)))
-      case (_, rn)               => a * rn
+  def sumOfGeometric(a: Fin, r: Card, n: Fin): Card =
+    if (r == One) One
+    else {
+      (r, r ** n) match {
+        case (Small(r), Small(rn)) => a * Small(N((1 - rn.value) / (1 - r.value)))
+        case (_, rn)               => a * rn
+      }
     }
-  }
 
   /** A finite cardinality. */
   sealed abstract class Fin extends Card {

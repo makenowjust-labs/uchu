@@ -108,24 +108,42 @@ object IndexOf {
 
   /** Indexes a map. */
   def map[A, B](ix: IndexOf[A], cx: Fin, iy: IndexOf[B], cy: Card): IndexOf[Map[A, B]] = {
-    val cListLeN = Card.sumOfGeometric(One, cy + 1, cx - 1)
+    val cListLeN = Card.sumOfGeometric(One, cy + 1, cx)
     val iCons = tuple2(listLeN(option(iy), cy + 1, cx - 1), cListLeN, iy, cy)
     IndexOf { map =>
       if (map.isEmpty) N.Zero
       else {
         val imap = map.map { case (k, v) => (ix(k), v) }
-        val (max, maxX) = imap.maxBy(_._1)
+        val (max, maxY) = imap.maxBy(_._1)
         val list = List.unfold(N.Zero)(i => if (i >= max) None else Some((imap.get(i), i + 1)))
-        iCons((list, maxX)) + 1
+        iCons((list, maxY)) + 1
       }
     }
   }
 
   /** Indexes a function. */
-  def function1[A, B](xs: LazyList[A], cx: Fin, iy: IndexOf[B], cy: Card): IndexOf[A => B] = {
-    val iListN = listN(iy, cy, cx)
-    IndexOf { f => iListN(xs.map(f).toList) }
+  def function1[A, B](xs: LazyList[A], ix: IndexOf[A], cx: Fin, iy: IndexOf[B], cy: Card): IndexOf[A => B] = {
+    val iMap = map(ix, cx, IndexOf((y: B) => iy(y) - 1), cy - 1)
+    IndexOf {
+      case map: Map[A, B] =>
+        // We assumes an index of the default value of `map` is `0`.
+        iMap(map.collect { case (x, y) if iy(y) != N.Zero => (x, y) })
+      case f =>
+        iMap(xs.zip(xs.map(f)).collect { case (x, y) if iy(y) != N.Zero => (x, y) }.toMap)
+    }
   }
+
+  /*{
+    val cListLeN = Card.sumOfGeometric(One, cy, cx - 1)
+    val iCons = tuple2(listLeN(iy, cy, cx - 1), cListLeN, IndexOf((y: B) => iy(y) - 1), cy - 1)
+    IndexOf { f =>
+      val rev = xs.map(f).reverse.dropWhile(y => iy(y) == N.Zero)
+      rev.headOption match {
+        case Some(y) => iCons((rev.tail.reverse.toList, y)) + 1
+        case None => N.Zero
+      }
+    }
+  }*/
 
   /** Indexes a partial function. */
   def partialFunction[A, B](
@@ -176,18 +194,6 @@ object IndexOf {
       IndexOf {
         case Nil     => N.Zero
         case x :: xs => iCons((x, xs)) + 1
-      }
-    }
-
-  /** Indexes a list which sizes to the given parameter. */
-  private def listN[A](i: IndexOf[A], c: Card, size: Fin): IndexOf[List[A]] =
-    if (size.isZero) IndexOf(_ => N.Zero)
-    else {
-      val cListN = c ** (size - 1)
-      val iCons = tuple2(i, c, IndexOf[List[A]](xs => listN(i, c, size - 1)(xs)), cListN)
-      IndexOf {
-        case Nil     => throw new IllegalArgumentException // unreachable
-        case x :: xs => iCons((x, xs))
       }
     }
 }
