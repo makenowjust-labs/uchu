@@ -20,7 +20,7 @@ trait Universe[A] extends Serializable {
   /** A cardinality of the type. */
   def cardinality: Card
 
-  override def toString: String = s"Universe.of($enumerate, $cardinality)"
+  override def toString: String = s"Universe.of($enumerate, $indexOf, $get, $cardinality)"
 }
 
 /** Universe utilities and instances. */

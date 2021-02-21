@@ -11,7 +11,7 @@ trait Finite[A] extends Universe[A] {
   /** A cardinality of the type. */
   def cardinality: Fin
 
-  override def toString: String = s"Finite.of($enumerate, $cardinality)"
+  override def toString: String = s"Finite.of($enumerate, $indexOf, $get, $cardinality)"
 }
 
 /** Finite utilities and instances. */
