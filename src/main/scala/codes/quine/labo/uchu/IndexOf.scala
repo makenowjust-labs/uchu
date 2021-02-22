@@ -52,6 +52,12 @@ object IndexOf {
   /** Indexes a [[Char]] value. */
   val char: IndexOf[Char] = IndexOf(x => Nat(x.toInt))
 
+  /** Indexes a [[String]] value. */
+  val string: IndexOf[String] = {
+    val iList = list(char, Small(Nat.CharSize))
+    IndexOf(x => iList(x.toList))
+  }
+
   /** Indexes a pair of values. */
   def tuple2[A, B](ix: IndexOf[A], cx: Card, iy: IndexOf[B], cy: Card): IndexOf[(A, B)] = {
     def finFin(nx: Nat, ny: Nat): IndexOf[(A, B)] = {

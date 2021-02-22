@@ -30,6 +30,11 @@ class UniverseSuite extends munit.FunSuite {
     assertEquals(Universe.bigInt.cardinality, Inf)
   }
 
+  test("Universe.string") {
+    assertEquals(Universe.string.enumerate.take(3), LazyList("", "\u0000", "\u0001"))
+    assertEquals(Universe.string.cardinality, Inf)
+  }
+
   test("Universe.tuple2") {
     assertEquals(
       Universe.tuple2(Universe[Boolean], Universe[BigInt]).enumerate.take(4),

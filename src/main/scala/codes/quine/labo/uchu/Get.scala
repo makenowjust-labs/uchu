@@ -58,6 +58,12 @@ object Get {
   val char: Get[Char] =
     Get(k => if (k < Nat.CharSize) Some(k.toInt.toChar) else None)
 
+  /** Gets a [[String]] value from an index. */
+  val string: Get[String] = {
+    val gList = list(char, Small(Nat.CharSize))
+    Get(k => gList(k).map(_.mkString))
+  }
+
   /** Gets a pair of values from an index. */
   def tuple2[A, B](gx: Get[A], cx: Card, gy: Get[B], cy: Card): Get[(A, B)] = {
     val c = cx * cy

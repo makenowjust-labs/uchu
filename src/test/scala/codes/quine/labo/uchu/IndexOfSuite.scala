@@ -48,6 +48,12 @@ class IndexOfSuite extends munit.FunSuite {
     assertEquals(IndexOf.char('\u0002'), Nat.Two)
   }
 
+  test("IndexOf.string") {
+    assertEquals(IndexOf.string(""), Nat.Zero)
+    assertEquals(IndexOf.string("\u0000"), Nat.One)
+    assertEquals(IndexOf.string("\u0001"), Nat.Two)
+  }
+
   val size = 200
   val iInt: IndexOf[Int] = IndexOf((x: Int) => Nat(x))
   val iBigInt: IndexOf[BigInt] = IndexOf((x: BigInt) => Nat(x))

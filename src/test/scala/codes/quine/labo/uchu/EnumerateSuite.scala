@@ -27,6 +27,14 @@ class EnumerateSuite extends munit.FunSuite {
     assertEquals(Enumerate.long.take(5), LazyList[Long](0, -1, 1, -2, 2))
   }
 
+  test("Enumerate.char") {
+    assertEquals(Enumerate.char.take(3), LazyList('\u0000', '\u0001', '\u0002'))
+  }
+
+  test("Enumerate.string") {
+    assertEquals(Enumerate.string.take(3), LazyList("", "\u0000", "\u0001"))
+  }
+
   test("Enumerate.tuple2") {
     assertEquals(Enumerate.tuple2(LazyList(0, 1), LazyList(0, 1)), LazyList((0, 0), (1, 0), (0, 1), (1, 1)))
   }

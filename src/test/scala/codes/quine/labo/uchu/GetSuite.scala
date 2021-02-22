@@ -54,6 +54,12 @@ class GetSuite extends munit.FunSuite {
     assertEquals(Get.char(Nat.Two ** 16), None)
   }
 
+  test("Get.string") {
+    assertEquals(Get.string(Nat.Zero), Some(""))
+    assertEquals(Get.string(Nat.One), Some("\u0000"))
+    assertEquals(Get.string(Nat.Two), Some("\u0001"))
+  }
+
   val size = 200
   val gInt: Get[Int] = Get(k => Some(k.toInt))
   val gBigInt: Get[BigInt] = Get(k => Some(k.value))

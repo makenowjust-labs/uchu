@@ -50,6 +50,9 @@ object Universe {
     */
   implicit def bigInt: Universe[BigInt] = of(Enumerate.bigInt, IndexOf.bigInt, Get.bigInt)
 
+  /** An instance for [[String]]. */
+  implicit def string: Universe[String] = of(Enumerate.string, IndexOf.string, Get.string)
+
   /** An instance for [[Tuple2]]. */
   implicit def tuple2[A, B](implicit A: Universe[A], B: Universe[B]): Universe[(A, B)] = of(
     Enumerate.tuple2(A.enumerate, B.enumerate),
