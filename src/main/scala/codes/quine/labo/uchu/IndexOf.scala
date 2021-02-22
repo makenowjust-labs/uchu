@@ -133,18 +133,6 @@ object IndexOf {
     }
   }
 
-  /*{
-    val cListLeN = Card.sumOfGeometric(One, cy, cx - 1)
-    val iCons = tuple2(listLeN(iy, cy, cx - 1), cListLeN, IndexOf((y: B) => iy(y) - 1), cy - 1)
-    IndexOf { f =>
-      val rev = xs.map(f).reverse.dropWhile(y => iy(y) == N.Zero)
-      rev.headOption match {
-        case Some(y) => iCons((rev.tail.reverse.toList, y)) + 1
-        case None => N.Zero
-      }
-    }
-  }*/
-
   /** Indexes a partial function. */
   def partialFunction[A, B](
       xs: LazyList[A],

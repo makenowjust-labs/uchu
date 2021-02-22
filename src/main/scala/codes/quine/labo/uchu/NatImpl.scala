@@ -33,11 +33,23 @@ private[uchu] object NatImpl {
   /** `2` */
   val Two: Nat = Nat(2)
 
+  /** A number of [[Byte]] values. */
+  val ByteSize: Nat = Nat.Two ** 8
+
+  /** A number of [[Byte]] values. */
+  val ShortSize: Nat = Nat.Two ** 16
+
+  /** A number of [[Int]] values. */
+  val IntSize: Nat = Nat.Two ** 32
+
+  /** A number of [[Long]] values. */
+  val LongSize: Nat = Nat.Two ** 64
+
   /** The maximum [[Int]] value. */
   val MaxInt: Nat = Nat(Int.MaxValue)
 
   /** The maximum safe number which can convert to [[Double]]. */
-  val MaxSafeInt: Nat = Nat(1L << 52)
+  val MaxSafeInt: Nat = Nat.Two ** 52
 
   /** Computes a square root. */
   def sqrt(n: Nat): Nat = {

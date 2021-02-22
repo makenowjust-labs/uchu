@@ -45,16 +45,16 @@ object Finite {
   implicit def boolean: Finite[Boolean] = of(Enumerate.boolean, IndexOf.boolean, Get.boolean)
 
   /** An instance for [[Byte]]. */
-  implicit def byte: Finite[Byte] = of(Enumerate.byte, Nat.Two ** 8, IndexOf.byte, Get.byte)
+  implicit def byte: Finite[Byte] = of(Enumerate.byte, Nat.ByteSize, IndexOf.byte, Get.byte)
 
   /** An instance for [[Short]]. */
-  implicit def short: Finite[Short] = of(Enumerate.short, Nat.Two ** 16, IndexOf.short, Get.short)
+  implicit def short: Finite[Short] = of(Enumerate.short, Nat.ShortSize, IndexOf.short, Get.short)
 
   /** An instance for [[Int]]. */
-  implicit def int: Finite[Int] = of(Enumerate.int, Nat.Two ** 32, IndexOf.int, Get.int)
+  implicit def int: Finite[Int] = of(Enumerate.int, Nat.IntSize, IndexOf.int, Get.int)
 
   /** An instance for [[Long]]. */
-  implicit def long: Finite[Long] = of(Enumerate.long, Nat.Two ** 64, IndexOf.long, Get.long)
+  implicit def long: Finite[Long] = of(Enumerate.long, Nat.LongSize, IndexOf.long, Get.long)
 
   /** An instance for [[Tuple2]]. */
   implicit def tuple2[A, B](implicit A: Finite[A], B: Finite[B]): Finite[(A, B)] = of(

@@ -40,19 +40,19 @@ object Get {
 
   /** Gets a [[Byte]] value from an index. */
   val byte: Get[Byte] =
-    Get(k => if (k < Nat.Two ** 8) bigInt(k).map(_.toByte) else None)
+    Get(k => if (k < Nat.ByteSize) bigInt(k).map(_.toByte) else None)
 
   /** Gets a [[Short]] value from an index. */
   val short: Get[Short] =
-    Get(k => if (k < Nat.Two ** 16) bigInt(k).map(_.toShort) else None)
+    Get(k => if (k < Nat.ShortSize) bigInt(k).map(_.toShort) else None)
 
   /** Gets a [[Int]] value from an index. */
   val int: Get[Int] =
-    Get(k => if (k < Nat.Two ** 32) bigInt(k).map(_.toInt) else None)
+    Get(k => if (k < Nat.IntSize) bigInt(k).map(_.toInt) else None)
 
   /** Gets a [[Long]] value from an index. */
   val long: Get[Long] =
-    Get(k => if (k < Nat.Two ** 64) bigInt(k).map(_.toLong) else None)
+    Get(k => if (k < Nat.LongSize) bigInt(k).map(_.toLong) else None)
 
   /** Gets a pair of values from an index. */
   def tuple2[A, B](gx: Get[A], cx: Card, gy: Get[B], cy: Card): Get[(A, B)] = {
