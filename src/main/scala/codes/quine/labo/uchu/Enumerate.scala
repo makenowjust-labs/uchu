@@ -31,6 +31,9 @@ object Enumerate {
   def long: LazyList[Long] =
     bigInt.takeWhile(n => n >= Long.MinValue && n <= Long.MaxValue).map(_.toLong)
 
+  /** Enumerates possible [[Char]] values. */
+  def char: LazyList[Char] = LazyList.range(0, 65536).map(_.toChar)
+
   /** Enumerates a pair of values in diagonal order. */
   def tuple2[A, B](xs: LazyList[A], ys: LazyList[B]): LazyList[(A, B)] =
     diagonal(xs.map(x => ys.map((x, _))))

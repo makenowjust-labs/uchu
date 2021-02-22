@@ -54,6 +54,10 @@ object Get {
   val long: Get[Long] =
     Get(k => if (k < Nat.LongSize) bigInt(k).map(_.toLong) else None)
 
+  /** Gets a [[Char]] value from an index. */
+  val char: Get[Char] =
+    Get(k => if (k < Nat.CharSize) Some(k.toInt.toChar) else None)
+
   /** Gets a pair of values from an index. */
   def tuple2[A, B](gx: Get[A], cx: Card, gy: Get[B], cy: Card): Get[(A, B)] = {
     val c = cx * cy

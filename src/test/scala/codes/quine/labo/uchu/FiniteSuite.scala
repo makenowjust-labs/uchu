@@ -62,6 +62,11 @@ class FiniteSuite extends munit.FunSuite {
     assertEquals(Finite.long.cardinality, Small(Nat.Two ** 64))
   }
 
+  test("Finite.char") {
+    assertEquals(Finite.char.enumerate.take(3), LazyList('\u0000', '\u0001', '\u0002'))
+    assertEquals(Finite.char.cardinality, Small(65536))
+  }
+
   test("Finite.tuple2") {
     assertEquals(
       Finite.tuple2(Finite[Byte], Finite[Byte]).enumerate.take(5),

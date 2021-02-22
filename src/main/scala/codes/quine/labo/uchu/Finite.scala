@@ -56,6 +56,9 @@ object Finite {
   /** An instance for [[Long]]. */
   implicit def long: Finite[Long] = of(Enumerate.long, Nat.LongSize, IndexOf.long, Get.long)
 
+  /** An instance for [[Char]]. */
+  implicit def char: Finite[Char] = of(Enumerate.char, Nat.CharSize, IndexOf.char, Get.char)
+
   /** An instance for [[Tuple2]]. */
   implicit def tuple2[A, B](implicit A: Finite[A], B: Finite[B]): Finite[(A, B)] = of(
     Enumerate.tuple2(A.enumerate, B.enumerate),

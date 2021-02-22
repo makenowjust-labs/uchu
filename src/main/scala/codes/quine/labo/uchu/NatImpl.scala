@@ -45,6 +45,9 @@ private[uchu] object NatImpl {
   /** A number of [[Long]] values. */
   val LongSize: Nat = Nat.Two ** 64
 
+  /** A number of [[Char]] values. */
+  val CharSize: Nat = Nat(65536)
+
   /** The maximum [[Int]] value. */
   val MaxInt: Nat = Nat(Int.MaxValue)
 
