@@ -58,7 +58,7 @@ sealed abstract class Card extends Product with Serializable with PartiallyOrder
   }
 
   /** Computes this to the power of the other number. */
-  def **(other: N): Card = self ** Small(other)
+  def **(other: Nat): Card = self ** Small(other)
 
   def tryCompareTo[B >: Card: AsPartiallyOrdered](other: B): Option[Int] = (self, other) match {
     case (Small(n), Small(m)) => Some(n.compare(m))
@@ -81,7 +81,7 @@ object Card {
     if (r == One) One
     else {
       (r, r ** n) match {
-        case (Small(r), Small(rn)) => a * Small(N((1 - rn.value) / (1 - r.value)))
+        case (Small(r), Small(rn)) => a * Small(Nat((1 - rn.value) / (1 - r.value)))
         case (_, rn)               => a * rn
       }
     }
@@ -101,28 +101,28 @@ object Card {
   object Fin {
 
     /** Creates a new instance with covering [[ArithmeticException]]. */
-    def apply(size: => N): Fin =
+    def apply(size: => Nat): Fin =
       try Small(size)
       catch { case _: ArithmeticException => TooLarge }
   }
 
   /** A zero cardinality. */
-  val Zero: Small = Small(N.Zero)
+  val Zero: Small = Small(Nat.Zero)
 
   /** A one cardinality. */
-  val One: Small = Small(N.One)
+  val One: Small = Small(Nat.One)
 
   /** A two cardinality. */
-  val Two: Small = Small(N.Two)
+  val Two: Small = Small(Nat.Two)
 
   /** A finite cardinality with a size. */
-  final case class Small(size: N) extends Fin
+  final case class Small(size: Nat) extends Fin
 
   /** Small utilities. */
   object Small {
 
     /** Creates a new instance from a [[BigInt]]. */
-    def apply(n: BigInt): Small = Small(N(n))
+    def apply(n: BigInt): Small = Small(Nat(n))
   }
 
   /** A finite cardinality without a size. */

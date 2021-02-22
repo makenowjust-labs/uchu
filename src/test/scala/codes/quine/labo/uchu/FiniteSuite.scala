@@ -9,20 +9,20 @@ class FiniteSuite extends munit.FunSuite {
   }
 
   test("Finite.of") {
-    val iInt = IndexOf((n: Int) => N(n))
+    val iInt = IndexOf((n: Int) => Nat(n))
     val gInt = Get(k => Some(k.toInt))
     assertEquals(Finite.of(LazyList(0, 1), iInt, gInt).enumerate, LazyList(0, 1))
     assertEquals(Finite.of(LazyList(0, 1), iInt, gInt).cardinality, Two)
-    assertEquals(Finite.of(LazyList(0, 1), iInt, gInt).indexOf(0), N.Zero)
-    assertEquals(Finite.of(LazyList(0, 1), iInt, gInt).get(N.Zero), Some(0))
-    assertEquals(Finite.of(LazyList(0, 1), N.Two, iInt, gInt).enumerate, LazyList(0, 1))
-    assertEquals(Finite.of(LazyList(0, 1), N.Two, iInt, gInt).cardinality, Two)
-    assertEquals(Finite.of(LazyList(0, 1), N.Two, iInt, gInt).indexOf(0), N.Zero)
-    assertEquals(Finite.of(LazyList(0, 1), N.Two, iInt, gInt).get(N.Zero), Some(0))
+    assertEquals(Finite.of(LazyList(0, 1), iInt, gInt).indexOf(0), Nat.Zero)
+    assertEquals(Finite.of(LazyList(0, 1), iInt, gInt).get(Nat.Zero), Some(0))
+    assertEquals(Finite.of(LazyList(0, 1), Nat.Two, iInt, gInt).enumerate, LazyList(0, 1))
+    assertEquals(Finite.of(LazyList(0, 1), Nat.Two, iInt, gInt).cardinality, Two)
+    assertEquals(Finite.of(LazyList(0, 1), Nat.Two, iInt, gInt).indexOf(0), Nat.Zero)
+    assertEquals(Finite.of(LazyList(0, 1), Nat.Two, iInt, gInt).get(Nat.Zero), Some(0))
     assertEquals(Finite.of(LazyList(0, 1), Two, iInt, gInt).enumerate, LazyList(0, 1))
     assertEquals(Finite.of(LazyList(0, 1), Two, iInt, gInt).cardinality, Two)
-    assertEquals(Finite.of(LazyList(0, 1), Two, iInt, gInt).indexOf(0), N.Zero)
-    assertEquals(Finite.of(LazyList(0, 1), Two, iInt, gInt).get(N.Zero), Some(0))
+    assertEquals(Finite.of(LazyList(0, 1), Two, iInt, gInt).indexOf(0), Nat.Zero)
+    assertEquals(Finite.of(LazyList(0, 1), Two, iInt, gInt).get(Nat.Zero), Some(0))
   }
 
   test("Finite.nothing") {
@@ -54,12 +54,12 @@ class FiniteSuite extends munit.FunSuite {
 
   test("Finite.int") {
     assertEquals(Finite.int.enumerate.take(5), LazyList(0, -1, 1, -2, 2))
-    assertEquals(Finite.int.cardinality, Small(N.Two ** 32))
+    assertEquals(Finite.int.cardinality, Small(Nat.Two ** 32))
   }
 
   test("Finite.long") {
     assertEquals(Finite.long.enumerate.take(5), LazyList[Long](0, -1, 1, -2, 2))
-    assertEquals(Finite.long.cardinality, Small(N.Two ** 64))
+    assertEquals(Finite.long.cardinality, Small(Nat.Two ** 64))
   }
 
   test("Finite.tuple2") {

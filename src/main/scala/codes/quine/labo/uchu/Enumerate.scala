@@ -70,7 +70,7 @@ object Enumerate {
     interleave(xs.map(Left(_)), ys.map(Right(_)))
 
   /** Enumerates natural numbers. */
-  private def natural: LazyList[N] = LazyList.iterate(N.Zero)(_ + 1)
+  private def natural: LazyList[Nat] = LazyList.iterate(Nat.Zero)(_ + 1)
 
   /** Enumerates table values in diagonal order. */
   private def diagonal[A](table: LazyList[LazyList[A]]): LazyList[A] = {

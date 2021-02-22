@@ -8,16 +8,16 @@ class UniverseSuite extends munit.FunSuite {
   }
 
   test("Universe.of") {
-    val iInt = IndexOf((n: Int) => N(n))
+    val iInt = IndexOf((n: Int) => Nat(n))
     val gInt = Get(k => Some(k.toInt))
     assertEquals(Universe.of(LazyList.from(0), iInt, gInt).enumerate.take(2), LazyList(0, 1))
     assertEquals(Universe.of(LazyList.from(0), iInt, gInt).cardinality, Inf)
-    assertEquals(Universe.of(LazyList.from(0), iInt, gInt).indexOf(0), N.Zero)
-    assertEquals(Universe.of(LazyList.from(0), iInt, gInt).get(N.Zero), Some(0))
+    assertEquals(Universe.of(LazyList.from(0), iInt, gInt).indexOf(0), Nat.Zero)
+    assertEquals(Universe.of(LazyList.from(0), iInt, gInt).get(Nat.Zero), Some(0))
     assertEquals(Universe.of(LazyList(0, 1), Two, iInt, gInt).enumerate, LazyList(0, 1))
     assertEquals(Universe.of(LazyList(0, 1), Two, iInt, gInt).cardinality, Two)
-    assertEquals(Universe.of(LazyList(0, 1), Two, iInt, gInt).indexOf(0), N.Zero)
-    assertEquals(Universe.of(LazyList(0, 1), Two, iInt, gInt).get(N.Zero), Some(0))
+    assertEquals(Universe.of(LazyList(0, 1), Two, iInt, gInt).indexOf(0), Nat.Zero)
+    assertEquals(Universe.of(LazyList(0, 1), Two, iInt, gInt).get(Nat.Zero), Some(0))
   }
 
   test("Universe.finite") {

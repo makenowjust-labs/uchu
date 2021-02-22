@@ -3,8 +3,8 @@ package codes.quine.labo.uchu
 import codes.quine.labo.uchu.Card._
 
 /** IndexOf is an indexer. */
-trait IndexOf[A] extends (A => N) {
-  def apply(x: A): N
+trait IndexOf[A] extends (A => Nat) {
+  def apply(x: A): Nat
 }
 
 /** IndexOf is utilities for indexing a value.
@@ -14,8 +14,8 @@ trait IndexOf[A] extends (A => N) {
 object IndexOf {
 
   /** Builds an indexer from a function. */
-  def apply[A](f: A => N): IndexOf[A] = new IndexOf[A] {
-    def apply(x: A): N = f(x)
+  def apply[A](f: A => Nat): IndexOf[A] = new IndexOf[A] {
+    def apply(x: A): Nat = f(x)
   }
 
   /** Delays building an indexer. */
@@ -25,17 +25,17 @@ object IndexOf {
   def nothing: IndexOf[Nothing] = IndexOf[Nothing](_ => throw new IllegalArgumentException)
 
   /** Indexes an [[Unit]] value. */
-  def unit: IndexOf[Unit] = IndexOf(_ => N.Zero)
+  def unit: IndexOf[Unit] = IndexOf(_ => Nat.Zero)
 
   /** Indexes a [[Boolean]] value. */
   val boolean: IndexOf[Boolean] = IndexOf {
-    case false => N.Zero
-    case true  => N.One
+    case false => Nat.Zero
+    case true  => Nat.One
   }
 
   /** Indexes a [[BigInt]] value. */
   val bigInt: IndexOf[BigInt] =
-    IndexOf(x => if (x < 0) N((-x * 2) - 1) else N(x * 2))
+    IndexOf(x => if (x < 0) Nat((-x * 2) - 1) else Nat(x * 2))
 
   /** Indexes a [[Byte]] value. */
   val byte: IndexOf[Byte] = IndexOf(x => bigInt(BigInt(x)))
@@ -51,7 +51,7 @@ object IndexOf {
 
   /** Indexes a pair of values. */
   def tuple2[A, B](ix: IndexOf[A], cx: Card, iy: IndexOf[B], cy: Card): IndexOf[(A, B)] = {
-    def finFin(nx: N, ny: N): IndexOf[(A, B)] = {
+    def finFin(nx: Nat, ny: Nat): IndexOf[(A, B)] = {
       val (min, max, landscape) = if (nx < ny) (nx, ny, false) else (ny, nx, true)
       val upper = min * (min + 1) / 2
       val diagonals = min * (max - min)
@@ -67,7 +67,7 @@ object IndexOf {
       }
     }
 
-    def finInf(n: N, landscape: Boolean): IndexOf[(A, B)] = {
+    def finInf(n: Nat, landscape: Boolean): IndexOf[(A, B)] = {
       val upper = n * (n + 1) / 2
       IndexOf { case (x, y) =>
         val (kx, ky) = (ix(x), iy(y))
@@ -96,26 +96,26 @@ object IndexOf {
   def list[A](i: IndexOf[A], c: Card): IndexOf[List[A]] =
     new IndexOf[List[A]] { iList =>
       private[this] val iCons = tuple2(i, c, iList, Inf)
-      def apply(xs: List[A]): N = xs match {
-        case Nil     => N.Zero
+      def apply(xs: List[A]): Nat = xs match {
+        case Nil     => Nat.Zero
         case x :: xs => iCons((x, xs)) + 1
       }
     }
 
   /** Indexes a set. */
   def set[A](i: IndexOf[A]): IndexOf[Set[A]] =
-    IndexOf(_.map(i).foldLeft(N(0)) { case (acc, k) => acc | (N.One << k) })
+    IndexOf(_.map(i).foldLeft(Nat(0)) { case (acc, k) => acc | (Nat.One << k) })
 
   /** Indexes a map. */
   def map[A, B](ix: IndexOf[A], cx: Fin, iy: IndexOf[B], cy: Card): IndexOf[Map[A, B]] = {
     val cListLeN = Card.sumOfGeometric(One, cy + 1, cx)
     val iCons = tuple2(listLeN(option(iy), cy + 1, cx - 1), cListLeN, iy, cy)
     IndexOf { map =>
-      if (map.isEmpty) N.Zero
+      if (map.isEmpty) Nat.Zero
       else {
         val imap = map.map { case (k, v) => (ix(k), v) }
         val (max, maxY) = imap.maxBy(_._1)
-        val list = List.unfold(N.Zero)(i => if (i >= max) None else Some((imap.get(i), i + 1)))
+        val list = List.unfold(Nat.Zero)(i => if (i >= max) None else Some((imap.get(i), i + 1)))
         iCons((list, maxY)) + 1
       }
     }
@@ -127,9 +127,9 @@ object IndexOf {
     IndexOf {
       case map: Map[A, B] =>
         // We assumes an index of the default value of `map` is `0`.
-        iMap(map.collect { case (x, y) if iy(y) != N.Zero => (x, y) })
+        iMap(map.collect { case (x, y) if iy(y) != Nat.Zero => (x, y) })
       case f =>
-        iMap(xs.zip(xs.map(f)).collect { case (x, y) if iy(y) != N.Zero => (x, y) }.toMap)
+        iMap(xs.zip(xs.map(f)).collect { case (x, y) if iy(y) != Nat.Zero => (x, y) }.toMap)
     }
   }
 
@@ -162,7 +162,7 @@ object IndexOf {
 
   /** Indexes an optional value. */
   def option[A](i: IndexOf[A]): IndexOf[Option[A]] = IndexOf {
-    case None    => N.Zero
+    case None    => Nat.Zero
     case Some(x) => i(x) + 1
   }
 
@@ -187,12 +187,12 @@ object IndexOf {
 
   /** Indexes a list which sizes up to the given parameter. */
   private def listLeN[A](i: IndexOf[A], c: Card, size: Fin): IndexOf[List[A]] =
-    if (size.isZero) IndexOf(_ => N.Zero)
+    if (size.isZero) IndexOf(_ => Nat.Zero)
     else {
       val cListLeN = Card.sumOfGeometric(One, c, size)
       val iCons = tuple2(i, c, delay(listLeN(i, c, size - 1)), cListLeN)
       IndexOf {
-        case Nil     => N.Zero
+        case Nil     => Nat.Zero
         case x :: xs => iCons((x, xs)) + 1
       }
     }
