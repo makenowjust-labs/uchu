@@ -61,9 +61,9 @@ object Universe {
     Get.tuple2(A.get, A.cardinality, B.get, B.cardinality)
   )
 
-  /** An instance for [[List]]. */
-  implicit def list[A](implicit A: Universe[A]): Universe[List[A]] =
-    of(Enumerate.list(A.enumerate), IndexOf.list(A.indexOf, A.cardinality), Get.list(A.get, A.cardinality))
+  /** An instance for [[Seq]]. */
+  implicit def seq[A](implicit A: Universe[A]): Universe[Seq[A]] =
+    of(Enumerate.seq(A.enumerate), IndexOf.seq(A.indexOf, A.cardinality), Get.seq(A.get, A.cardinality))
 
   /** An instance for [[Map]]. */
   implicit def map[A, B](implicit A: Finite[A], B: Universe[B]): Universe[Map[A, B]] = of(

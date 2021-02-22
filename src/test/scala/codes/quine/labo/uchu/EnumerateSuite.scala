@@ -39,8 +39,8 @@ class EnumerateSuite extends munit.FunSuite {
     assertEquals(Enumerate.tuple2(LazyList(0, 1), LazyList(0, 1)), LazyList((0, 0), (1, 0), (0, 1), (1, 1)))
   }
 
-  test("Enumerate.list") {
-    assertEquals(Enumerate.list(LazyList(0, 1)).take(5), LazyList(List.empty, List(0), List(1), List(0, 0), List(1, 0)))
+  test("Enumerate.seq") {
+    assertEquals(Enumerate.seq(LazyList(0, 1)).take(5), LazyList(List.empty, List(0), List(1), List(0, 0), List(1, 0)))
   }
 
   test("Enumerate.map") {

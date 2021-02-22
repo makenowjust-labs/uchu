@@ -20,10 +20,10 @@ From ["Countable set" - Wikipedia](https://en.wikipedia.org/wiki/Countable_set):
 This library is for countable types in which the value can represent as a natural number.
 For example, each of `BigInt` values can associate to a natural number by a function `x => if (x < 0) -x * 2 + 1 else x * 2`.
 A product of two countable types are also countable.
-In fact, we can order `(BigInt, BigInt)` values like `[(0, 0), (-1, 0), (0, -1), (1, 0), ...]`.
+In fact, we can order `(BigInt, BigInt)` values like `(0, 0), (-1, 0), (0, -1), (1, 0), ...`.
 Of course, all finite types (a number of its values is finite) are countable.
 
-Many types in programming are countable, `Int`, `Option[A]` for countable `A`, `List[A]` for countable `A`, `Set[A]` for finite `A`,
+Many types in programming are countable, `Int`, `Option[A]` for countable `A`, `Seq[A]` for countable `A`, `Set[A]` for finite `A`,
 `Map[A, B]` for finite `A` and countable `B`, to take one example of many.
 If a type is countable, we can look up a value's index, and retrieve this value from the index after, and vice versa.
 In other words, we can transfer a value via natural number, and can generate a value from randomly generated natural number.
@@ -32,16 +32,16 @@ In other words, we can transfer a value via natural number, and can generate a v
 scala> import codes.quine.labo.uchu._
 import codes.quine.labo.uchu._
 
-scala> // Looks up an index of `List(1, 2, 3)`.
-scala> Universe[List[Int]].indexOf(List(1, 2, 3))
+scala> // Looks up an index of `Seq(1, 2, 3)`.
+scala> Universe[Seq[Int]].indexOf(Seq(1, 2, 3))
 res0: Nat = 71251
 
 scala> // Then, retrieves this from the index.
-scala> Universe[List[Int]].get(Nat(71251))
-res1: Option[List[Int]] = Some(List(1, 2, 3))
+scala> Universe[Seq[Int]].get(Nat(71251))
+res1: Option[Seq[Int]] = Some(List(1, 2, 3))
 
 scala> // Of course we can look up larger value's index.
-scala> Universe[List[Int]].indexOf(List.range(0, 100))
+scala> Universe[Seq[Int]].indexOf(Seq.range(0, 100))
 res2: Nat = 489085920819330747617706992050462432524787020462903639367826683892161327203514936193162126531119341779718808675526363930290074638096645538541969230537502743645520989037375527170708920387525963301786542993275032490560112462126267436612936294394948015312351631364130261800769828235969082934496872004225053345301699587962335114787840523089807145741337733384987983239368139280596373057267621098685216046812719787585952451755939941766612930677379483455639616357691737000752434743658221410887759427773155330110878554090939586963803658796097212287471007063413324925107541638106533282276803862996170782821180214406815249610439553724213698148412251312179771242469821542752887828950604561469555956821158446503853913982924884405548189267855545506574188458019253011448393812511667887318497018155287572481304028767630333553227764223158764451374412132910867159512381845945097869902330205630669656904688061680986006682836902223516612620554600095799351794380463669248
 
 scala> // `Map` and `Set` are supported.

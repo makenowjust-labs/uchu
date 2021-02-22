@@ -35,15 +35,15 @@ object Enumerate {
   def char: LazyList[Char] = LazyList.range(0, 65536).map(_.toChar)
 
   /** Enumerates possible [[String]] values. */
-  def string: LazyList[String] = list(char).map(_.mkString)
+  def string: LazyList[String] = seq(char).map(_.mkString)
 
   /** Enumerates a pair of values in diagonal order. */
   def tuple2[A, B](xs: LazyList[A], ys: LazyList[B]): LazyList[(A, B)] =
     diagonal(xs.map(x => ys.map((x, _))))
 
   /** Enumerates possible lists in diagonal order. */
-  def list[A](xs: LazyList[A]): LazyList[List[A]] =
-    LazyList.cons(Nil, tuple2(xs, list(xs)).map { case (x, xs) => x :: xs })
+  def seq[A](xs: LazyList[A]): LazyList[Seq[A]] =
+    LazyList.cons(Nil, tuple2(xs, seq(xs)).map { case (x, xs) => x +: xs })
 
   /** Enumerates possible maps in diagonal order. */
   def map[A, B](xs: LazyList[A], cx: Fin, ys: LazyList[B]): LazyList[Map[A, B]] =

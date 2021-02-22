@@ -103,15 +103,15 @@ class GetSuite extends munit.FunSuite {
     for ((x, k) <- xs.zipWithIndex.take(size)) assertEquals(g(Nat(k)), Some(x))
   }
 
-  test("Get.list: Fin") {
-    val xs = Enumerate.list(xs20)
-    val g = Get.list(gInt, Small(20))
+  test("Get.seq: Fin") {
+    val xs = Enumerate.seq(xs20)
+    val g = Get.seq(gInt, Small(20))
     for ((x, k) <- xs.zipWithIndex.take(size)) assertEquals(g(Nat(k)), Some(x))
   }
 
-  test("Get.list: Inf") {
-    val xs = Enumerate.list(xsInf)
-    val g = Get.list(gBigInt, Inf)
+  test("Get.seq: Inf") {
+    val xs = Enumerate.seq(xsInf)
+    val g = Get.seq(gBigInt, Inf)
     for ((x, k) <- xs.zipWithIndex.take(size)) assertEquals(g(Nat(k)), Some(x))
   }
 

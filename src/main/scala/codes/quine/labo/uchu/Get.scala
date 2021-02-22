@@ -60,7 +60,7 @@ object Get {
 
   /** Gets a [[String]] value from an index. */
   val string: Get[String] = {
-    val gList = list(char, Small(Nat.CharSize))
+    val gList = seq(char, Small(Nat.CharSize))
     Get(k => gList(k).map(_.mkString))
   }
 
@@ -125,12 +125,12 @@ object Get {
   }
 
   /** Gets a list from an index. */
-  def list[A](g: Get[A], c: Card): Get[List[A]] =
-    new Get[List[A]] { gList =>
-      private[this] val gCons = tuple2(g, c, gList, Inf)
-      def apply(k: Nat): Option[List[A]] = {
+  def seq[A](g: Get[A], c: Card): Get[Seq[A]] =
+    new Get[Seq[A]] { gSeq =>
+      private[this] val gCons = tuple2(g, c, gSeq, Inf)
+      def apply(k: Nat): Option[Seq[A]] = {
         if (k == Nat.Zero) Some(Nil)
-        else gCons(k - 1).map { case (x, xs) => x :: xs }
+        else gCons(k - 1).map { case (x, xs) => x +: xs }
       }
     }
 

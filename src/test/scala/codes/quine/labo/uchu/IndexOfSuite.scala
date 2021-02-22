@@ -97,15 +97,15 @@ class IndexOfSuite extends munit.FunSuite {
     for ((x, i) <- xs.zipWithIndex.take(size)) assertEquals(indexOf(x), Nat(i))
   }
 
-  test("IndexOf.list: Fin") {
-    val xs = Enumerate.list(xs20)
-    val indexOf = IndexOf.list(iInt, Small(20))
+  test("IndexOf.seq: Fin") {
+    val xs = Enumerate.seq(xs20)
+    val indexOf = IndexOf.seq(iInt, Small(20))
     for ((x, i) <- xs.zipWithIndex.take(size)) assertEquals(indexOf(x), Nat(i))
   }
 
-  test("IndexOf.list: Inf") {
-    val xs = Enumerate.list(xsInf)
-    val indexOf = IndexOf.list(iBigInt, Inf)
+  test("IndexOf.seq: Inf") {
+    val xs = Enumerate.seq(xsInf)
+    val indexOf = IndexOf.seq(iBigInt, Inf)
     for ((x, i) <- xs.zipWithIndex.take(size)) assertEquals(indexOf(x), Nat(i))
   }
 

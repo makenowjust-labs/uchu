@@ -44,12 +44,12 @@ class UniverseSuite extends munit.FunSuite {
     assertEquals(Universe.tuple2(Universe[Boolean], Universe[Boolean]).cardinality, Small(4))
   }
 
-  test("Universe.list") {
+  test("Universe.seq") {
     assertEquals(
-      Universe.list(Universe[BigInt]).enumerate.take(4),
+      Universe.seq(Universe[BigInt]).enumerate.take(4),
       LazyList[List[BigInt]](List.empty, List(0), List(-1), List(0, 0))
     )
-    assertEquals(Universe.list(Universe[BigInt]).cardinality, Inf)
+    assertEquals(Universe.seq(Universe[BigInt]).cardinality, Inf)
   }
 
   test("Universe.map") {

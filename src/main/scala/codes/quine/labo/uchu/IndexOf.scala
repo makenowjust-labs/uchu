@@ -54,7 +54,7 @@ object IndexOf {
 
   /** Indexes a [[String]] value. */
   val string: IndexOf[String] = {
-    val iList = list(char, Small(Nat.CharSize))
+    val iList = seq(char, Small(Nat.CharSize))
     IndexOf(x => iList(x.toList))
   }
 
@@ -102,12 +102,12 @@ object IndexOf {
   }
 
   /** Indexes a list. */
-  def list[A](i: IndexOf[A], c: Card): IndexOf[List[A]] =
-    new IndexOf[List[A]] { iList =>
-      private[this] val iCons = tuple2(i, c, iList, Inf)
-      def apply(xs: List[A]): Nat = xs match {
+  def seq[A](i: IndexOf[A], c: Card): IndexOf[Seq[A]] =
+    new IndexOf[Seq[A]] { iSeq =>
+      private[this] val iCons = tuple2(i, c, iSeq, Inf)
+      def apply(xs: Seq[A]): Nat = xs match {
         case Nil     => Nat.Zero
-        case x :: xs => iCons((x, xs)) + 1
+        case x +: xs => iCons((x, xs)) + 1
       }
     }
 
