@@ -78,7 +78,7 @@ object Card {
     * with the initial value `a` and the common ration `r`.
     */
   def sumOfGeometric(a: Fin, r: Card, n: Fin): Card =
-    if (r == One) One
+    if (r == One) a * n
     else {
       (r, r ** n) match {
         case (Small(r), Small(rn)) => a * Small(Nat((1 - rn.value) / (1 - r.value)))

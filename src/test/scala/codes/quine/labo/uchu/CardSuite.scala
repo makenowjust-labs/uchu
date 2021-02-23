@@ -47,4 +47,11 @@ class CardSuite extends munit.FunSuite {
     assertEquals(Inf ** Small(2), Inf)
     assertEquals(Small(2) ** Small((2: BigInt).pow(32)), TooLarge)
   }
+
+  test("Card.sumOfGeometric") {
+    assertEquals(Card.sumOfGeometric(One, Two, Two), Small(3))
+    assertEquals(Card.sumOfGeometric(Two, One, Two), Small(4))
+    assertEquals(Card.sumOfGeometric(One, TooLarge, Two), TooLarge)
+    assertEquals(Card.sumOfGeometric(One, Two, TooLarge), TooLarge)
+  }
 }
