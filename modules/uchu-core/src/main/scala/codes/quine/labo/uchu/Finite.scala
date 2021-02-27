@@ -9,7 +9,11 @@ import codes.quine.labo.uchu.Card._
 trait Finite[A] extends Universe[A] {
 
   /** A cardinality of the type. */
-  def cardinality: Fin
+  override def cardinality: Fin
+
+  /** Converts this by the given transformations. */
+  override def imap[B](f: A => B)(g: B => A): Finite[B] =
+    Finite.of(enumerate.map(f), cardinality, indexOf.contramap(g), get.map(f))
 
   override def toString: String = s"Finite.of($enumerate, $indexOf, $get, $cardinality)"
 }

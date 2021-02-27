@@ -3,8 +3,11 @@ package codes.quine.labo.uchu
 import codes.quine.labo.uchu.Card._
 
 /** Get is a getter. */
-trait Get[A] extends (Nat => Option[A]) {
+trait Get[A] extends (Nat => Option[A]) { self =>
   def apply(n: Nat): Option[A]
+
+  /** Converts this by the given transformation. */
+  def map[B](f: A => B): Get[B] = Get(k => self(k).map(f))
 }
 
 /** Get is utilities for getting a value from an index.

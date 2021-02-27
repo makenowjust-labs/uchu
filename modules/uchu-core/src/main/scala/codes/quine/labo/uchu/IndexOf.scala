@@ -3,8 +3,11 @@ package codes.quine.labo.uchu
 import codes.quine.labo.uchu.Card._
 
 /** IndexOf is an indexer. */
-trait IndexOf[A] extends (A => Nat) {
+trait IndexOf[A] extends (A => Nat) { self =>
   def apply(x: A): Nat
+
+  /** Converts this by the given transformation. */
+  def contramap[B](g: B => A): IndexOf[B] = IndexOf(x => self(g(x)))
 }
 
 /** IndexOf is utilities for indexing a value.

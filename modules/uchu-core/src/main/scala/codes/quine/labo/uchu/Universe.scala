@@ -20,6 +20,10 @@ trait Universe[A] extends Serializable {
   /** A cardinality of the type. */
   def cardinality: Card
 
+  /** Converts this by the given transformations. */
+  def imap[B](f: A => B)(g: B => A): Universe[B] =
+    Universe.of(enumerate.map(f), cardinality, indexOf.contramap(g), get.map(f))
+
   override def toString: String = s"Universe.of($enumerate, $indexOf, $get, $cardinality)"
 }
 
@@ -64,6 +68,12 @@ object Universe {
   /** An instance for [[Seq]]. */
   implicit def seq[A](implicit A: Universe[A]): Universe[Seq[A]] =
     of(Enumerate.seq(A.enumerate), IndexOf.seq(A.indexOf, A.cardinality), Get.seq(A.get, A.cardinality))
+
+  /** An instance for [[List]]. */
+  implicit def list[A](implicit A: Universe[A]): Universe[List[A]] = seq.imap(_.toList)(_.toSeq)
+
+  /** An instance for [[Vector]]. */
+  implicit def vector[A](implicit A: Universe[A]): Universe[Vector[A]] = seq.imap(_.toVector)(_.toSeq)
 
   /** An instance for [[Map]]. */
   implicit def map[A, B](implicit A: Finite[A], B: Universe[B]): Universe[Map[A, B]] = of(
