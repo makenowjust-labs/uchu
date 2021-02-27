@@ -2,9 +2,8 @@ package codes.quine.labo.uchu
 
 /** Natural number implementation and utilities. */
 private[uchu] object NatImpl {
-  // The following 3 types are components of a technique to
-  // create a no-boxing new-type. It's copied from the
-  // new-types lib by @alexknvl
+  // The following 3 types are components of a technique to create a no-boxing new-type.
+  // It's copied from the new-types lib by @alexknvl
   // For more detail see https://github.com/alexknvl/newtypes
   private[uchu] type Base
   private[uchu] trait Tag extends Any
@@ -74,7 +73,7 @@ private[uchu] object NatImpl {
   }
 
   /** Natural number operations. */
-  private[uchu] class Ops(private val n: Nat) extends AnyVal with Ordered[Nat] {
+  implicit class NatOps(private val n: Nat) extends AnyVal with Ordered[Nat] {
 
     /** A value of this natural number. */
     def value: BigInt = Nat.extract(n)
