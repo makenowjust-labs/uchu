@@ -20,8 +20,12 @@ ThisBuild / scalafixDependencies += "com.github.vovapolu" %% "scaluzzi" % "0.1.1
 
 lazy val root = project
   .in(file("."))
+  .aggregate(core)
+
+lazy val core = project
+  .in(file("modules/uchu-core"))
   .settings(
-    name := "uchu",
+    name := "uchu-core",
     console / initialCommands := """
       |import codes.quine.labo.uchu._
       |import codes.quine.labo.uchu.Card._
