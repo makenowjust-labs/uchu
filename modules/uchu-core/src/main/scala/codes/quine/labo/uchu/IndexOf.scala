@@ -25,7 +25,7 @@ object IndexOf {
   def delay[A](i: => IndexOf[A]): IndexOf[A] = IndexOf(x => i(x))
 
   /** Indexes a [[Nothing]] value (an empty function). */
-  def nothing: IndexOf[Nothing] = IndexOf[Nothing](_ => throw new IllegalArgumentException)
+  def nothing: IndexOf[Nothing] = IndexOf[Nothing](_ => throw new NoSuchElementException)
 
   /** Indexes an [[Unit]] value. */
   def unit: IndexOf[Unit] = IndexOf(_ => Nat.Zero)

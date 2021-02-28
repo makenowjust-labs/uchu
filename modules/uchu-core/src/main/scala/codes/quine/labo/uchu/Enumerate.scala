@@ -8,6 +8,10 @@ import codes.quine.labo.uchu.Card._
   */
 object Enumerate {
 
+  /** Delays building a lazy list. */
+  def delay[A](xs: => LazyList[A]): LazyList[A] =
+    LazyList.cons(xs, LazyList.empty).flatten
+
   /** Enumerates possible [[Boolean]] values. */
   def boolean: LazyList[Boolean] = LazyList(false, true)
 

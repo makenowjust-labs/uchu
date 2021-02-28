@@ -12,7 +12,7 @@ import codes.quine.labo.uchu.Get
 import codes.quine.labo.uchu.IndexOf
 import codes.quine.labo.uchu.Nat
 import codes.quine.labo.uchu.Universe
-import codes.quine.labo.uchu.any2stringadd
+import codes.quine.labo.uchu.any2stringadd // Hack!
 
 /** CatsInstances defines cats type-classes instances for uchu types. */
 trait CatsInstances {
