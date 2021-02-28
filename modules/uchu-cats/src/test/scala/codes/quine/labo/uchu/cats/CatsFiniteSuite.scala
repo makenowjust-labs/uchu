@@ -9,14 +9,14 @@ import codes.quine.labo.uchu.Nat
 class CatsFiniteSuite extends munit.FunSuite {
   test("CatsFinite.uchuFiniteForCatsEval") {
     val fin = CatsFinite.uchuFiniteForCatsEval[Int]
-    assertEquals(fin.cardinality, Finite[Int].cardinality)
+    assertEquals(fin.card, Finite[Int].card)
     assertEquals(fin.indexOf(Eval.now(1)), Nat(2))
     assertEquals(fin.get(Nat(2)), Some(Eval.now(1)))
   }
 
   test("CatsFinite.uchuFiniteForCatsDataIor") {
     val fin = CatsFinite.uchuFiniteForCatsDataIor[Boolean, Boolean]
-    assertEquals(fin.cardinality, Small(8))
+    assertEquals(fin.card, Small(8))
     for ((v, k) <- fin.enumerate.zipWithIndex) {
       assertEquals(fin.get(Nat(k)), Some(v))
       assertEquals(fin.indexOf(v), Nat(k))

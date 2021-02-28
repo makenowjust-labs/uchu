@@ -9,6 +9,6 @@ package object uchu {
   /** Nat is a natural number type. */
   type Nat = NatImpl.Type
 
-  /** Natural number utilities.. */
+  /** Natural number utilities. */
   val Nat: NatImpl.type = NatImpl
 }

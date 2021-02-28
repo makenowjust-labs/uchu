@@ -28,7 +28,7 @@ class CardInstancesSuite extends munit.FunSuite with munit.DisciplineSuite {
       xs = new Random(seed).shuffle(A.enumerate)
       i = IndexOf[A](x => Nat(xs.indexOf(x)))
       g = Get[A](k => xs.lift(k.toInt))
-    } yield Finite.of(xs, A.cardinality, i, g))
+    } yield Finite.of(xs, A.card, i, g))
 
   implicit def scalapropsArbitraryForGet[A](implicit A: Finite[A]): Arbitrary[Get[A]] =
     Arbitrary(for {
@@ -46,13 +46,13 @@ class CardInstancesSuite extends munit.FunSuite with munit.DisciplineSuite {
   implicit val catsEqForCard: Eq[Card] = Eq.fromUniversalEquals
 
   implicit def catsEqForUniverse[A](implicit fin: Finite[A], eq: Eq[A]): Eq[Universe[A]] =
-    Eq.by(fin => (fin.enumerate, fin.cardinality, fin.indexOf, fin.get))
+    Eq.by(fin => (fin.enumerate, fin.card, fin.indexOf, fin.get))
 
   implicit def catsEqForFinite[A](implicit fin: Finite[A], eq: Eq[A]): Eq[Finite[A]] =
     Eq.by(_.asInstanceOf[Universe[A]])
 
   implicit def catsEqForGet[A](implicit fin: Finite[A], eq: Eq[A]): Eq[Get[A]] =
-    Eq.by(Enumerate.to(fin.cardinality).map(_))
+    Eq.by(Enumerate.to(fin.card).map(_))
 
   implicit def catsEqForIndexOf[A](implicit A: Finite[A]): Eq[IndexOf[A]] =
     Eq.by(A.enumerate.map(_))
