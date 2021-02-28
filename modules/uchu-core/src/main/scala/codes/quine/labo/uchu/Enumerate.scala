@@ -98,6 +98,16 @@ object Enumerate {
     diagonals(Seq.empty, table).flatten
   }
 
+  /** Counts a number of the list elements. */
+  private[uchu] def sizeOf[A](xs: Seq[A]): Nat = xs.foldLeft(Nat.Zero)((n, _) => n + 1)
+
+  /** Creates a list contains natural numbers from 0 to `n` sequentially. */
+  private[uchu] def to(n: Nat): LazyList[Nat] = to(Small(n))
+
+  /** Creates a list contains natural numbers from 0 to `n` sequentially. */
+  private[uchu] def to(n: Fin): LazyList[Nat] =
+    LazyList.unfold(Nat.Zero)(k => if (Small(k) >= n) None else Some((k, k + 1)))
+
   /** Enumerates possible lists which size up to the given parameter in diagonal order. */
   private def listLeN[A](xs: LazyList[A], size: Fin): LazyList[List[A]] =
     if (size.isZero) LazyList(Nil)

@@ -68,6 +68,8 @@ lazy val cats = project
     libraryDependencies += "org.typelevel" %% "cats-core" % "2.4.2",
     // Settings for test:
     libraryDependencies += "org.scalameta" %% "munit" % "0.7.22" % Test,
+    libraryDependencies += "org.typelevel" %% "cats-laws" % "2.4.2" % Test,
+    libraryDependencies += "org.typelevel" %% "discipline-munit" % "1.0.6" % Test,
     testFrameworks += new TestFramework("munit.Framework"),
     doctestTestFramework := DoctestTestFramework.Munit,
     doctestMarkdownEnabled := true

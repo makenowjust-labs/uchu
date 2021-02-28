@@ -127,7 +127,7 @@ object IndexOf {
       else {
         val imap = map.map { case (k, v) => (ix(k), v) }
         val (max, maxY) = imap.maxBy(_._1)
-        val list = List.unfold(Nat.Zero)(i => if (i >= max) None else Some((imap.get(i), i + 1)))
+        val list = Enumerate.to(max).map(imap.get).toList
         iCons((list, maxY)) + 1
       }
     }

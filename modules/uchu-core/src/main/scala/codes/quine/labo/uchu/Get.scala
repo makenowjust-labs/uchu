@@ -152,7 +152,7 @@ object Get {
       else
         gCons(k - 1).map { case (xys, y) =>
           val map1 = xys.zipWithIndex.collect { case (Some(x), k) => (gx(Nat(k)).get, x) }.toMap
-          val map2 = Map(gx(Nat(xys.size)).get -> y)
+          val map2 = Map(gx(Enumerate.sizeOf(xys)).get -> y)
           map1 ++ map2
         }
     }
