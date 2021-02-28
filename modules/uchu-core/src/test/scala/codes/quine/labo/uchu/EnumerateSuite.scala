@@ -76,12 +76,14 @@ class EnumerateSuite extends munit.FunSuite {
 
   test("Enumerate.function1") {
     assertEquals(
-      Enumerate.function1(LazyList(0, 1), Two, LazyList(0, 1)),
+      Enumerate
+        .function1(IndexOf((k: Int) => Nat(k)), Two, LazyList(0, 1))
+        .map(_.asInstanceOf[MapFunction[Int, Int]].map),
       LazyList(
-        Map.empty[Int, Int],
-        Map(0 -> 1),
-        Map(1 -> 1),
-        Map(0 -> 1, 1 -> 1)
+        Map.empty[Nat, Int],
+        Map(Nat.Zero -> 1),
+        Map(Nat.One -> 1),
+        Map(Nat.Zero -> 1, Nat.One -> 1)
       )
     )
   }

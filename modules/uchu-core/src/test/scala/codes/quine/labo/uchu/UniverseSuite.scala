@@ -81,12 +81,16 @@ class UniverseSuite extends munit.FunSuite {
 
   test("Universe.function1") {
     assertEquals(
-      Universe.function1(Finite[Boolean], Universe[BigInt]).enumerate.take(4),
-      LazyList[Map[Boolean, BigInt]](
-        Map.empty[Boolean, BigInt],
-        Map(false -> -1),
-        Map(true -> -1),
-        Map(false -> 1)
+      Universe
+        .function1(Finite[Boolean], Universe[BigInt])
+        .enumerate
+        .take(4)
+        .map(_.asInstanceOf[MapFunction[Boolean, BigInt]].map),
+      LazyList[Map[Nat, BigInt]](
+        Map.empty[Nat, BigInt],
+        Map(Nat.Zero -> -1),
+        Map(Nat.One -> -1),
+        Map(Nat.Zero -> 1)
       )
     )
     assertEquals(Universe.function1(Finite[Boolean], Universe[BigInt]).card, Inf)

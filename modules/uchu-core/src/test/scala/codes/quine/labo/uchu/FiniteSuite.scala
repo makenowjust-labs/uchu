@@ -119,12 +119,12 @@ class FiniteSuite extends munit.FunSuite {
 
   test("Finite.function1") {
     assertEquals(
-      Finite.function1(Finite[Boolean], Finite[Boolean]).enumerate,
+      Finite.function1(Finite[Boolean], Finite[Boolean]).enumerate.map(_.asInstanceOf[MapFunction[Int, Boolean]].map),
       LazyList(
-        Map.empty[Boolean, Boolean],
-        Map(false -> true),
-        Map(true -> true),
-        Map(false -> true, true -> true)
+        Map.empty[Nat, Boolean],
+        Map(Nat.Zero -> true),
+        Map(Nat.One -> true),
+        Map(Nat.Zero -> true, Nat.One -> true)
       )
     )
     assertEquals(Finite.function1(Finite[Boolean], Finite[Boolean]).card, Small(4))

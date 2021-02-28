@@ -101,10 +101,10 @@ object Universe {
 
   /** An instance for [[Function1]]. */
   implicit def function1[A, B](implicit A: Finite[A], B: Universe[B]): Universe[A => B] = of(
-    Enumerate.function1(A.enumerate, A.card, B.enumerate),
+    Enumerate.function1(A.indexOf, A.card, B.enumerate),
     B.card ** A.card,
     IndexOf.function1(A.enumerate, A.indexOf, A.card, B.indexOf, B.card),
-    Get.function1(A.get, A.card, B.get, B.card)
+    Get.function1(A.indexOf, A.card, B.get, B.card)
   )
 
   /** An instance for [[PartialFunction]]. It is same as [[Universe.map]] internally. */

@@ -134,19 +134,19 @@ class IndexOfSuite extends munit.FunSuite {
   }
 
   test("Index.function1: Fin -> Fin (small)") {
-    val xs = Enumerate.function1(Enumerate.boolean, Small(2), Enumerate.boolean)
+    val xs = Enumerate.function1(IndexOf.boolean, Small(2), Enumerate.boolean)
     val indexOf = IndexOf.function1(Enumerate.boolean, IndexOf.boolean, Small(2), IndexOf.boolean, Small(2))
     for ((x, i) <- xs.zipWithIndex) assertEquals(indexOf(x), Nat(i))
   }
 
   test("Index.function1: Fin -> Fin (large)") {
-    val xs = Enumerate.function1(xs20, Small(20), xs20)
+    val xs = Enumerate.function1(iInt, Small(20), xs20)
     val indexOf = IndexOf.function1(xs20, iInt, Small(20), iInt, Small(20))
     for ((x, i) <- xs.zipWithIndex.take(size)) assertEquals(indexOf(x), Nat(i))
   }
 
   test("Index.function1: Fin -> Inf") {
-    val xs = Enumerate.function1(xs20, Small(20), xsInf)
+    val xs = Enumerate.function1(iInt, Small(20), xsInf)
     val indexOf = IndexOf.function1(xs20, iInt, Small(20), iBigInt, Inf)
     for ((x, i) <- xs.zipWithIndex.take(size)) assertEquals(indexOf(x), Nat(i))
   }

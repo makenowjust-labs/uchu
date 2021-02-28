@@ -159,12 +159,12 @@ object Get {
   }
 
   /** Gets a function from an index. */
-  def function1[A, B](gx: Get[A], cx: Fin, gy: Get[B], cy: Card): Get[A => B] =
+  def function1[A, B](ix: IndexOf[A], cx: Fin, gy: Get[B], cy: Card): Get[A => B] =
     gy(Nat.Zero) match {
       case Some(y0) =>
-        val gMap = map(gx, cx, Get(k => gy(k + 1)), cy - 1)
-        Get(k => gMap(k).map(_.withDefaultValue(y0)))
-      case None => Get(k => if (k == Nat.Zero) Some(Map.empty) else None)
+        val gMap = map(Get(k => if (Small(k) < cx) Some(k) else None), cx, Get(k => gy(k + 1)), cy - 1)
+        Get(k => gMap(k).map(MapFunction(ix, _, y0)))
+      case None => Get(k => if (k == Nat.Zero) Some(_ => throw new NoSuchElementException) else None)
     }
 
   /** Gets a partial function from an index. */

@@ -65,10 +65,10 @@ object Enumerate {
     natural.takeWhile(n => Small(n.bitSize) <= c).map(_.bits.zip(xs).collect { case (true, v) => v }.toSet)
 
   /** Enumerates possible functions in diagonal order. */
-  def function1[A, B](xs: LazyList[A], cx: Fin, ys: LazyList[B]): LazyList[A => B] =
+  def function1[A, B](ix: IndexOf[A], cx: Fin, ys: LazyList[B]): LazyList[A => B] =
     ys.headOption match {
-      case Some(y0) => map(xs, cx, ys.tail).map(_.withDefaultValue(y0))
-      case None     => LazyList(Map.empty)
+      case Some(y0) => map(to(cx), cx, ys.tail).map(MapFunction(ix, _, y0))
+      case None     => LazyList(_ => throw new NoSuchElementException)
     }
 
   /** Enumerates possible optional values. */

@@ -135,13 +135,13 @@ object IndexOf {
 
   /** Indexes a function. */
   def function1[A, B](xs: LazyList[A], ix: IndexOf[A], cx: Fin, iy: IndexOf[B], cy: Card): IndexOf[A => B] = {
-    val iMap = map(ix, cx, IndexOf((y: B) => iy(y) - 1), cy - 1)
+    val iMap = map(IndexOf((x: Nat) => x), cx, IndexOf((y: B) => iy(y) - 1), cy - 1)
     IndexOf {
-      case map: Map[A, B] =>
-        // We assumes an index of the default value of `map` is `0`.
-        iMap(map.collect { case (x, y) if iy(y) != Nat.Zero => (x, y) })
+      case MapFunction(_, map, y0) if iy(y0) == Nat.Zero =>
+        // We assume this wrapper uses the same IndexOf instance for B.
+        iMap(map)
       case f =>
-        iMap(xs.zip(xs.map(f)).collect { case (x, y) if iy(y) != Nat.Zero => (x, y) }.toMap)
+        iMap(xs.zip(xs.map(f)).collect { case (x, y) if iy(y) != Nat.Zero => (ix(x), y) }.toMap)
     }
   }
 
