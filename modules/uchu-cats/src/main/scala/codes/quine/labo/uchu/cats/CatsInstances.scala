@@ -3,11 +3,16 @@ package codes.quine.labo.uchu.cats
 import cats.Contravariant
 import cats.Functor
 import cats.Invariant
+import cats.kernel.LowerBoundedEnumerable
+import cats.kernel.Order
 
+import codes.quine.labo.uchu.Card
 import codes.quine.labo.uchu.Finite
 import codes.quine.labo.uchu.Get
 import codes.quine.labo.uchu.IndexOf
+import codes.quine.labo.uchu.Nat
 import codes.quine.labo.uchu.Universe
+import codes.quine.labo.uchu.any2stringadd
 
 /** CatsInstances defines cats type-classes instances for uchu types. */
 trait CatsInstances {
@@ -33,6 +38,22 @@ trait CatsInstances {
   implicit val catsInstancesForUchuGet: Functor[Get] = new Functor[Get] {
     def map[A, B](fa: Get[A])(f: A => B): Get[B] = fa.map(f)
   }
+
+  /** Cats type-classes instances for Card. */
+  implicit val catsInstancesForUchuCard: Order[Card] =
+    new Order[Card] {
+      override def compare(x: Card, y: Card): Int = x.compare(y)
+    }
+
+  /** Cats type-classes instances for Nat. */
+  implicit val catsInstancesForUchuNat: LowerBoundedEnumerable[Nat] with Order[Nat] =
+    new LowerBoundedEnumerable[Nat] with Order[Nat] {
+      override def order: Order[Nat] = this
+      override def partialPrevious(a: Nat): Option[Nat] = if (a == Nat.Zero) None else Some(a - 1)
+      override def minBound: Nat = Nat.Zero
+      override def next(a: Nat): Nat = a + 1
+      override def compare(x: Nat, y: Nat): Int = x.compare(y)
+    }
 }
 
 /** Cats type-classes instances for uchu types. */

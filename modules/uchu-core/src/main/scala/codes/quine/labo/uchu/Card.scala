@@ -3,7 +3,7 @@ package codes.quine.labo.uchu
 import codes.quine.labo.uchu.Card._
 
 /** Card is a cardinality of an enumerable type. */
-sealed abstract class Card extends Product with Serializable with PartiallyOrdered[Card] { self =>
+sealed abstract class Card extends Product with Serializable with Ordered[Card] { self =>
 
   /** Checks this cardinality is zero or not. */
   def isZero: Boolean = self == Zero
@@ -60,14 +60,14 @@ sealed abstract class Card extends Product with Serializable with PartiallyOrder
   /** Computes this to the power of the other number. */
   def **(other: Nat): Card = self ** Small(other)
 
-  def tryCompareTo[B >: Card: AsPartiallyOrdered](other: B): Option[Int] = (self, other) match {
-    case (Small(n), Small(m)) => Some(n.compare(m))
-    case (Small(_), _)        => Some(-1)
-    case (_, Small(_))        => Some(1)
-    case (TooLarge, TooLarge) => None
-    case (TooLarge, _)        => Some(-1)
-    case (_, TooLarge)        => Some(1)
-    case (_, _)               => None
+  def compare(other: Card): Int = (self, other) match {
+    case (Small(n), Small(m)) => n.compare(m)
+    case (Small(_), _)        => -1
+    case (_, Small(_))        => 1
+    case (TooLarge, TooLarge) => 0
+    case (TooLarge, _)        => -1
+    case (_, TooLarge)        => 1
+    case (Inf, Inf)           => 0
   }
 }
 
