@@ -22,4 +22,13 @@ class CatsFiniteSuite extends munit.FunSuite {
       assertEquals(fin.indexOf(v), Nat(k))
     }
   }
+
+  test("CatsFinite.uchuFiniteForCatsDataCont") {
+    val fin = CatsFinite.uchuFiniteForCatsDataCont[Boolean, Boolean]
+    assertEquals(fin.card, Small(16))
+    for ((v, k) <- fin.enumerate.zipWithIndex) {
+      assertEquals(fin.get(Nat(k)), Some(v))
+      assertEquals(fin.indexOf(v), Nat(k))
+    }
+  }
 }

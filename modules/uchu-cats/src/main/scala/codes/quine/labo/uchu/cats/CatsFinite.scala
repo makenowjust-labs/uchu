@@ -1,6 +1,7 @@
 package codes.quine.labo.uchu.cats
 
 import cats.Eval
+import cats.data.Cont
 import cats.data.Ior
 
 import codes.quine.labo.uchu.Finite
@@ -27,6 +28,10 @@ trait CatsFinite {
 
     Finite[Either[A, Either[B, (A, B)]]].imap(f)(g)
   }
+
+  /** Finite instance for Cont. */
+  implicit def uchuFiniteForCatsDataCont[A, B](implicit A: Finite[A], B: Finite[B]): Finite[Cont[A, B]] =
+    Finite[(B => Eval[A]) => Eval[A]].imap(Cont(_))(_.run)
 }
 
 /** Finite instances for cats data types. */
