@@ -60,9 +60,15 @@ object Enumerate {
       }
     )
 
+  /** Enumerates possible non-empty maps in diagonal order. */
+  def nonEmptyMap[A, B](xs: LazyList[A], cx: Fin, ys: LazyList[B]): LazyList[Map[A, B]] = map(xs, cx, ys).drop(1)
+
   /** Enumerates possible sets in diagonal order. */
   def set[A](xs: LazyList[A], c: Fin): LazyList[Set[A]] =
     natural.takeWhile(n => Small(n.bitSize) <= c).map(_.bits.zip(xs).collect { case (true, v) => v }.toSet)
+
+  /** Enumerates possible non-empty maps in diagonaal order. */
+  def nonEmptySet[A](xs: LazyList[A], c: Fin): LazyList[Set[A]] = set(xs, c).drop(1)
 
   /** Enumerates possible functions in diagonal order. */
   def function1[A, B](ix: IndexOf[A], cx: Fin, ys: LazyList[B]): LazyList[A => B] =

@@ -61,12 +61,41 @@ class EnumerateSuite extends munit.FunSuite {
     )
   }
 
+  test("Enumerate.nonEmptyMap") {
+    assertEquals(Enumerate.nonEmptyMap(LazyList.empty, Zero, LazyList(0, 1)), LazyList.empty)
+    assertEquals(
+      Enumerate.nonEmptyMap(LazyList(0, 1), Two, LazyList(0, 1)),
+      LazyList(
+        Map(0 -> 0),
+        Map(1 -> 0),
+        Map(0 -> 1),
+        Map(0 -> 0, 1 -> 0),
+        Map(1 -> 1),
+        Map(0 -> 1, 1 -> 0),
+        Map(0 -> 0, 1 -> 1),
+        Map(0 -> 1, 1 -> 1)
+      )
+    )
+  }
+
   test("Enumerate.set") {
     assertEquals(Enumerate.set(LazyList.empty, Zero), LazyList(Set.empty))
     assertEquals(
       Enumerate.set(LazyList(0, 1), Two),
       LazyList(
         Set.empty[Int],
+        Set(0),
+        Set(1),
+        Set(0, 1)
+      )
+    )
+  }
+
+  test("Enumerate.nonEmptySet") {
+    assertEquals(Enumerate.nonEmptySet(LazyList.empty, Zero), LazyList.empty)
+    assertEquals(
+      Enumerate.nonEmptySet(LazyList(0, 1), Two),
+      LazyList(
         Set(0),
         Set(1),
         Set(0, 1)

@@ -1,10 +1,20 @@
 package codes.quine.labo.uchu.cats
 
+import scala.collection.immutable.SortedMap
+import scala.collection.immutable.SortedSet
+
 import cats.Eval
 import cats.data.Cont
 import cats.data.Ior
+import cats.data.NonEmptyMap
+import cats.data.NonEmptySet
 
+import codes.quine.labo.uchu.Card._
+import codes.quine.labo.uchu.Enumerate
 import codes.quine.labo.uchu.Finite
+import codes.quine.labo.uchu.Get
+import codes.quine.labo.uchu.IndexOf
+import codes.quine.labo.uchu.UniverseOrdering
 
 /** CatsFinite defines Finite instances for cats data types. */
 trait CatsFinite {
@@ -27,6 +37,37 @@ trait CatsFinite {
     }
 
     Finite[Either[A, Either[B, (A, B)]]].imap(f)(g)
+  }
+
+  /** Finite instance for NonEmptySet. */
+  implicit def uchuFiniteForCatsDataNonEmptySet[A](implicit A: Finite[A]): Finite[NonEmptySet[A]] = {
+    // Creates an Ordering instance for SortedSet construction.
+    implicit val orderingForA: Ordering[A] = new UniverseOrdering[A]
+    Finite
+      .of(
+        Enumerate.nonEmptySet(A.enumerate, A.card),
+        Two ** A.card - 1,
+        IndexOf.nonEmptySet(A.indexOf),
+        Get.nonEmptySet(A.get, A.card)
+      )
+      .imap(set => NonEmptySet.fromSetUnsafe(SortedSet.from(set)))(_.toSortedSet)
+  }
+
+  /** Finite instance for NonEmptyMap. */
+  implicit def uchuFiniteForCatsDataNonEmptyMap[A, B](implicit
+      A: Finite[A],
+      B: Finite[B]
+  ): Finite[NonEmptyMap[A, B]] = {
+    // Creates an Ordering instance for SortedMap construction.
+    implicit val orderingForA: Ordering[A] = new UniverseOrdering[A]
+    Finite
+      .of(
+        Enumerate.nonEmptyMap(A.enumerate, A.card, B.enumerate),
+        (B.card + 1) ** A.card - 1,
+        IndexOf.nonEmptyMap(A.indexOf, A.card, B.indexOf, B.card),
+        Get.nonEmptyMap(A.get, A.card, B.get, B.card)
+      )
+      .imap(map => NonEmptyMap.fromMapUnsafe(SortedMap.from(map)))(_.toSortedMap)
   }
 
   /** Finite instance for Cont. */

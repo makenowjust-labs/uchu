@@ -118,6 +118,15 @@ object IndexOf {
   def set[A](i: IndexOf[A]): IndexOf[Set[A]] =
     IndexOf(_.map(i).foldLeft(Nat(0)) { case (acc, k) => acc | (Nat.One << k) })
 
+  /** Indexes a non-empty set. */
+  def nonEmptySet[A](i: IndexOf[A]): IndexOf[Set[A]] = {
+    val iSet = set(i)
+    IndexOf { set =>
+      if (set.isEmpty) throw new IllegalArgumentException
+      iSet(set) - 1
+    }
+  }
+
   /** Indexes a map. */
   def map[A, B](ix: IndexOf[A], cx: Fin, iy: IndexOf[B], cy: Card): IndexOf[Map[A, B]] = {
     val cListLeN = Card.sumOfGeometric(One, cy + 1, cx)
@@ -130,6 +139,15 @@ object IndexOf {
         val list = Enumerate.to(max).map(imap.get).toList
         iCons((list, maxY)) + 1
       }
+    }
+  }
+
+  /** Indexes a non-empty map. */
+  def nonEmptyMap[A, B](ix: IndexOf[A], cx: Fin, iy: IndexOf[B], cy: Card): IndexOf[Map[A, B]] = {
+    val iMap = map(ix, cx, iy, cy)
+    IndexOf { map =>
+      if (map.isEmpty) throw new IllegalArgumentException
+      iMap(map) - 1
     }
   }
 

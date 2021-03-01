@@ -143,6 +143,12 @@ object Get {
     else Some(k.bits.zipWithIndex.collect { case (true, k) => g(Nat(k)).get }.toSet)
   }
 
+  /** Gets a non-empty set from an index. */
+  def nonEmptySet[A](g: Get[A], c: Card): Get[Set[A]] = {
+    val gSet = set(g, c)
+    Get(k => gSet(k + 1))
+  }
+
   /** Gets a map from an index. */
   def map[A, B](gx: Get[A], cx: Fin, gy: Get[B], cy: Card): Get[Map[A, B]] = {
     val cListLeN = Card.sumOfGeometric(One, cy + 1, cx)
@@ -156,6 +162,12 @@ object Get {
           map1 ++ map2
         }
     }
+  }
+
+  /** Gets a non-empty map from an index. */
+  def nonEmptyMap[A, B](gx: Get[A], cx: Fin, gy: Get[B], cy: Card): Get[Map[A, B]] = {
+    val gMap = map(gx, cx, gy, cy)
+    Get(k => gMap(k + 1))
   }
 
   /** Gets a function from an index. */

@@ -1,14 +1,22 @@
 package codes.quine.labo.uchu.cats
 
+import scala.collection.immutable.SortedMap
+
 import cats.Eval
 import cats.data.Chain
 import cats.data.Ior
 import cats.data.NonEmptyChain
 import cats.data.NonEmptyList
+import cats.data.NonEmptyMap
 import cats.data.NonEmptySeq
 import cats.data.NonEmptyVector
 
+import codes.quine.labo.uchu.Enumerate
+import codes.quine.labo.uchu.Finite
+import codes.quine.labo.uchu.Get
+import codes.quine.labo.uchu.IndexOf
 import codes.quine.labo.uchu.Universe
+import codes.quine.labo.uchu.UniverseOrdering
 
 /** CatsUniverse defines Universe instances for cats data types. */
 trait CatsUniverse {
@@ -35,6 +43,23 @@ trait CatsUniverse {
   /** Universe instance for NonEmptyVector. */
   implicit def uchuUniverseForCatsDataNonEmptyVector[A](implicit A: Universe[A]): Universe[NonEmptyVector[A]] =
     Universe[(A, Vector[A])].imap { case (x, xs) => NonEmptyVector(x, xs) }(xs => (xs.head, xs.tail))
+
+  /** Universe instance for NonEmptyMap. */
+  implicit def uchuUniverseForCatsDataNonEmptyMap[A, B](implicit
+      A: Finite[A],
+      B: Universe[B]
+  ): Universe[NonEmptyMap[A, B]] = {
+    // Creates an Ordering instance for SortedMap construction.
+    implicit val orderingForA: Ordering[A] = new UniverseOrdering[A]
+    Universe
+      .of(
+        Enumerate.nonEmptyMap(A.enumerate, A.card, B.enumerate),
+        (B.card + 1) ** A.card - 1,
+        IndexOf.nonEmptyMap(A.indexOf, A.card, B.indexOf, B.card),
+        Get.nonEmptyMap(A.get, A.card, B.get, B.card)
+      )
+      .imap(map => NonEmptyMap.fromMapUnsafe(SortedMap.from(map)))(_.toSortedMap)
+  }
 
   /** Universe instance for Ior. */
   implicit def uchuUniverseForCatsDataIor[A, B](implicit A: Universe[A], B: Universe[B]): Universe[Ior[A, B]] = {

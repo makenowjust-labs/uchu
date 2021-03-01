@@ -122,6 +122,12 @@ class GetSuite extends munit.FunSuite {
     for ((x, k) <- xs.zipWithIndex.take(size)) assertEquals(g(Nat(k)), Some(x))
   }
 
+  test("Get.nonEmptySet") {
+    val xs = Enumerate.nonEmptySet(xs20, Small(20))
+    val g = Get.nonEmptySet(gInt, Small(20))
+    for ((x, k) <- xs.zipWithIndex.take(size)) assertEquals(g(Nat(k)), Some(x))
+  }
+
   test("Get.map: Fin -> Fin (small)") {
     val xs = Enumerate.map(Enumerate.boolean, Small(2), Enumerate.boolean)
     val g = Get.map(Get.boolean, Small(2), Get.boolean, Small(2))
@@ -137,6 +143,18 @@ class GetSuite extends munit.FunSuite {
   test("Get.map: Fin -> Inf") {
     val xs = Enumerate.map(xs20, Small(20), xsInf)
     val g = Get.map(gInt, Small(20), gBigInt, Inf)
+    for ((x, k) <- xs.zipWithIndex.take(size)) assertEquals(g(Nat(k)), Some(x))
+  }
+
+  test("Get.nonEmptyMap: Fin -> Fin (small)") {
+    val xs = Enumerate.nonEmptyMap(Enumerate.boolean, Small(2), Enumerate.boolean)
+    val g = Get.nonEmptyMap(Get.boolean, Small(2), Get.boolean, Small(2))
+    for ((x, k) <- xs.zipWithIndex) assertEquals(g(Nat(k)), Some(x))
+  }
+
+  test("Get.nonEmptyMap: Fin -> Fin (large)") {
+    val xs = Enumerate.nonEmptyMap(xs20, Small(20), xs20)
+    val g = Get.nonEmptyMap(gInt, Small(20), gInt, Small(20))
     for ((x, k) <- xs.zipWithIndex.take(size)) assertEquals(g(Nat(k)), Some(x))
   }
 

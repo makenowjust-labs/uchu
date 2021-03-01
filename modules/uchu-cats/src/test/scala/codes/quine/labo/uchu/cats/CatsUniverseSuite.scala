@@ -4,6 +4,7 @@ import cats.Eval
 import cats.data.Chain
 import cats.data.NonEmptyChain
 import cats.data.NonEmptyList
+import cats.data.NonEmptyMap
 import cats.data.NonEmptySeq
 import cats.data.NonEmptyVector
 
@@ -52,6 +53,13 @@ class CatsUniverseSuite extends munit.FunSuite {
     assertEquals(univ.card, Inf)
     assertEquals(univ.indexOf(NonEmptyVector.of(1)), Nat(3))
     assertEquals(univ.get(Nat(3)), Some(NonEmptyVector.of(1)))
+  }
+
+  test("CatsUniverse.uchuUniverseForCatsDataNonEmptyMap") {
+    val univ = CatsUniverse.uchuUniverseForCatsDataNonEmptyMap[Int, BigInt]
+    assertEquals(univ.card, Inf)
+    assertEquals(univ.indexOf(NonEmptyMap.of(1 -> 2)), Nat(32))
+    assertEquals(univ.get(Nat(32)), Some(NonEmptyMap.of(1 -> BigInt(2))))
   }
 
   test("CatsUniverse.uchuUniverseForCatsDataIor") {

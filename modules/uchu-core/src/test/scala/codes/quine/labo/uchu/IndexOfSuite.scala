@@ -115,6 +115,12 @@ class IndexOfSuite extends munit.FunSuite {
     for ((x, i) <- xs.zipWithIndex) assertEquals(indexOf(x), Nat(i))
   }
 
+  test("IndexOf.nonEmptySet") {
+    val xs = Enumerate.nonEmptySet(xs10, Small(10))
+    val indexOf = IndexOf.nonEmptySet(iInt)
+    for ((x, i) <- xs.zipWithIndex) assertEquals(indexOf(x), Nat(i))
+  }
+
   test("Index.map: Fin -> Fin (small)") {
     val xs = Enumerate.map(Enumerate.boolean, Small(2), Enumerate.boolean)
     val indexOf = IndexOf.map(IndexOf.boolean, Small(2), IndexOf.boolean, Small(2))
@@ -130,6 +136,18 @@ class IndexOfSuite extends munit.FunSuite {
   test("Index.map: Fin -> Inf") {
     val xs = Enumerate.map(xs20, Small(20), xsInf)
     val indexOf = IndexOf.map(iInt, Small(20), iBigInt, Inf)
+    for ((x, i) <- xs.zipWithIndex.take(size)) assertEquals(indexOf(x), Nat(i))
+  }
+
+  test("Index.nonEmptyMap: Fin -> Fin (small)") {
+    val xs = Enumerate.nonEmptyMap(Enumerate.boolean, Small(2), Enumerate.boolean)
+    val indexOf = IndexOf.nonEmptyMap(IndexOf.boolean, Small(2), IndexOf.boolean, Small(2))
+    for ((x, i) <- xs.zipWithIndex) assertEquals(indexOf(x), Nat(i))
+  }
+
+  test("Index.nonEmptyMap: Fin -> Fin (large)") {
+    val xs = Enumerate.nonEmptyMap(xs20, Small(20), xs20)
+    val indexOf = IndexOf.nonEmptyMap(iInt, Small(20), iInt, Small(20))
     for ((x, i) <- xs.zipWithIndex.take(size)) assertEquals(indexOf(x), Nat(i))
   }
 
