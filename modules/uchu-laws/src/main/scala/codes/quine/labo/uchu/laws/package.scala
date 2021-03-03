@@ -2,10 +2,9 @@ package codes.quine.labo.uchu
 
 import scala.language.implicitConversions
 
+import _root_.cats.kernel.Eq
 import org.scalacheck.Prop
 import org.scalacheck.util.Pretty
-
-import _root_.cats.kernel.Eq
 
 package object laws {
 
