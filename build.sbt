@@ -38,7 +38,7 @@ lazy val core = project
       .map(_ -> url(s"http://www.scala-lang.org/api/${scalaVersion.value}/"))
       .toMap,
     // Settings for test:
-    libraryDependencies += "org.scalameta" %% "munit" % "0.7.22" % Test,
+    libraryDependencies += "org.scalameta" %% "munit" % "0.7.23" % Test,
     testFrameworks += new TestFramework("munit.Framework"),
     doctestTestFramework := DoctestTestFramework.Munit,
     doctestMarkdownEnabled := true
@@ -67,7 +67,7 @@ lazy val cats = project
     // Dependencies:
     libraryDependencies += "org.typelevel" %% "cats-core" % "2.4.2",
     // Settings for test:
-    libraryDependencies += "org.scalameta" %% "munit" % "0.7.22" % Test,
+    libraryDependencies += "org.scalameta" %% "munit" % "0.7.23" % Test,
     testFrameworks += new TestFramework("munit.Framework"),
     doctestTestFramework := DoctestTestFramework.Munit,
     doctestMarkdownEnabled := true
@@ -95,7 +95,7 @@ lazy val shapeless = project
     // Dependencies:
     libraryDependencies += "com.chuusai" %% "shapeless" % "2.3.3",
     // Settings for test:
-    libraryDependencies += "org.scalameta" %% "munit" % "0.7.22" % Test,
+    libraryDependencies += "org.scalameta" %% "munit" % "0.7.23" % Test,
     testFrameworks += new TestFramework("munit.Framework"),
     doctestTestFramework := DoctestTestFramework.Munit,
     doctestMarkdownEnabled := true
@@ -122,7 +122,7 @@ lazy val laws = project
     libraryDependencies += "org.typelevel" %% "cats-kernel" % "2.4.2",
     libraryDependencies += "org.typelevel" %% "discipline-core" % "1.1.4",
     // Settings for test:
-    libraryDependencies += "org.scalameta" %% "munit" % "0.7.22" % Test,
+    libraryDependencies += "org.scalameta" %% "munit" % "0.7.23" % Test,
     libraryDependencies += "org.typelevel" %% "discipline-munit" % "1.0.6" % Test,
     libraryDependencies += "org.typelevel" %% "cats-laws" % "2.4.2" % Test,
     libraryDependencies += "com.chuusai" %% "shapeless" % "2.3.3" % Test,
