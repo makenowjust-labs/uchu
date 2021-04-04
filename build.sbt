@@ -65,7 +65,7 @@ lazy val cats = project
       .map(_ -> url(s"http://www.scala-lang.org/api/${scalaVersion.value}/"))
       .toMap,
     // Dependencies:
-    libraryDependencies += "org.typelevel" %% "cats-core" % "2.4.2",
+    libraryDependencies += "org.typelevel" %% "cats-core" % "2.5.0",
     // Settings for test:
     libraryDependencies += "org.scalameta" %% "munit" % "0.7.22" % Test,
     testFrameworks += new TestFramework("munit.Framework"),
@@ -119,12 +119,12 @@ lazy val laws = project
       .map(_ -> url(s"http://www.scala-lang.org/api/${scalaVersion.value}/"))
       .toMap,
     // Dependencies:
-    libraryDependencies += "org.typelevel" %% "cats-kernel" % "2.4.2",
+    libraryDependencies += "org.typelevel" %% "cats-kernel" % "2.5.0",
     libraryDependencies += "org.typelevel" %% "discipline-core" % "1.1.4",
     // Settings for test:
     libraryDependencies += "org.scalameta" %% "munit" % "0.7.22" % Test,
     libraryDependencies += "org.typelevel" %% "discipline-munit" % "1.0.6" % Test,
-    libraryDependencies += "org.typelevel" %% "cats-laws" % "2.4.2" % Test,
+    libraryDependencies += "org.typelevel" %% "cats-laws" % "2.5.0" % Test,
     libraryDependencies += "com.chuusai" %% "shapeless" % "2.3.3" % Test,
     testFrameworks += new TestFramework("munit.Framework"),
     doctestTestFramework := DoctestTestFramework.Munit,
