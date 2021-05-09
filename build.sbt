@@ -93,7 +93,7 @@ lazy val shapeless = project
       .map(_ -> url(s"http://www.scala-lang.org/api/${scalaVersion.value}/"))
       .toMap,
     // Dependencies:
-    libraryDependencies += "com.chuusai" %% "shapeless" % "2.3.4",
+    libraryDependencies += "com.chuusai" %% "shapeless" % "2.3.5",
     // Settings for test:
     libraryDependencies += "org.scalameta" %% "munit" % "0.7.23" % Test,
     testFrameworks += new TestFramework("munit.Framework"),
@@ -126,7 +126,7 @@ lazy val laws = project
     libraryDependencies += "org.scalameta" %% "munit" % "0.7.25" % Test,
     libraryDependencies += "org.typelevel" %% "discipline-munit" % "1.0.8" % Test,
     libraryDependencies += "org.typelevel" %% "cats-laws" % "2.6.0" % Test,
-    libraryDependencies += "com.chuusai" %% "shapeless" % "2.3.4" % Test,
+    libraryDependencies += "com.chuusai" %% "shapeless" % "2.3.5" % Test,
     testFrameworks += new TestFramework("munit.Framework"),
     doctestTestFramework := DoctestTestFramework.Munit,
     doctestMarkdownEnabled := true
