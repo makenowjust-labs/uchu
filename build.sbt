@@ -38,7 +38,7 @@ lazy val core = project
       .map(_ -> url(s"http://www.scala-lang.org/api/${scalaVersion.value}/"))
       .toMap,
     // Settings for test:
-    libraryDependencies += "org.scalameta" %% "munit" % "0.7.23" % Test,
+    libraryDependencies += "org.scalameta" %% "munit" % "0.7.26" % Test,
     testFrameworks += new TestFramework("munit.Framework"),
     doctestTestFramework := DoctestTestFramework.Munit,
     doctestMarkdownEnabled := true
@@ -67,7 +67,7 @@ lazy val cats = project
     // Dependencies:
     libraryDependencies += "org.typelevel" %% "cats-core" % "2.6.1",
     // Settings for test:
-    libraryDependencies += "org.scalameta" %% "munit" % "0.7.23" % Test,
+    libraryDependencies += "org.scalameta" %% "munit" % "0.7.26" % Test,
     testFrameworks += new TestFramework("munit.Framework"),
     doctestTestFramework := DoctestTestFramework.Munit,
     doctestMarkdownEnabled := true
@@ -93,9 +93,9 @@ lazy val shapeless = project
       .map(_ -> url(s"http://www.scala-lang.org/api/${scalaVersion.value}/"))
       .toMap,
     // Dependencies:
-    libraryDependencies += "com.chuusai" %% "shapeless" % "2.3.5",
+    libraryDependencies += "com.chuusai" %% "shapeless" % "2.3.6",
     // Settings for test:
-    libraryDependencies += "org.scalameta" %% "munit" % "0.7.23" % Test,
+    libraryDependencies += "org.scalameta" %% "munit" % "0.7.26" % Test,
     testFrameworks += new TestFramework("munit.Framework"),
     doctestTestFramework := DoctestTestFramework.Munit,
     doctestMarkdownEnabled := true
@@ -119,14 +119,14 @@ lazy val laws = project
       .map(_ -> url(s"http://www.scala-lang.org/api/${scalaVersion.value}/"))
       .toMap,
     // Dependencies:
-    libraryDependencies += "org.typelevel" %% "cats-kernel" % "2.6.1",
-    libraryDependencies += "org.typelevel" %% "discipline-core" % "1.1.4",
+    libraryDependencies += "org.typelevel" %% "cats-kernel" % "2.6.0",
+    libraryDependencies += "org.typelevel" %% "discipline-core" % "1.1.5",
     // Settings for test:
-    libraryDependencies += "org.scalameta" %% "munit" % "0.7.23" % Test,
+    libraryDependencies += "org.scalameta" %% "munit" % "0.7.26" % Test,
     libraryDependencies += "org.scalameta" %% "munit" % "0.7.25" % Test,
-    libraryDependencies += "org.typelevel" %% "discipline-munit" % "1.0.8" % Test,
-    libraryDependencies += "org.typelevel" %% "cats-laws" % "2.6.1" % Test,
-    libraryDependencies += "com.chuusai" %% "shapeless" % "2.3.5" % Test,
+    libraryDependencies += "org.typelevel" %% "discipline-munit" % "1.0.9" % Test,
+    libraryDependencies += "org.typelevel" %% "cats-laws" % "2.6.0" % Test,
+    libraryDependencies += "com.chuusai" %% "shapeless" % "2.3.6" % Test,
     testFrameworks += new TestFramework("munit.Framework"),
     doctestTestFramework := DoctestTestFramework.Munit,
     doctestMarkdownEnabled := true
