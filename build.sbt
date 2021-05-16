@@ -124,7 +124,7 @@ lazy val laws = project
     // Settings for test:
     libraryDependencies += "org.scalameta" %% "munit" % "0.7.23" % Test,
     libraryDependencies += "org.scalameta" %% "munit" % "0.7.25" % Test,
-    libraryDependencies += "org.typelevel" %% "discipline-munit" % "1.0.8" % Test,
+    libraryDependencies += "org.typelevel" %% "discipline-munit" % "1.0.9" % Test,
     libraryDependencies += "org.typelevel" %% "cats-laws" % "2.6.0" % Test,
     libraryDependencies += "com.chuusai" %% "shapeless" % "2.3.5" % Test,
     testFrameworks += new TestFramework("munit.Framework"),
