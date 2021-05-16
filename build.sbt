@@ -120,7 +120,7 @@ lazy val laws = project
       .toMap,
     // Dependencies:
     libraryDependencies += "org.typelevel" %% "cats-kernel" % "2.6.0",
-    libraryDependencies += "org.typelevel" %% "discipline-core" % "1.1.4",
+    libraryDependencies += "org.typelevel" %% "discipline-core" % "1.1.5",
     // Settings for test:
     libraryDependencies += "org.scalameta" %% "munit" % "0.7.23" % Test,
     libraryDependencies += "org.scalameta" %% "munit" % "0.7.25" % Test,
