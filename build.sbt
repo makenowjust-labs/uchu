@@ -123,7 +123,7 @@ lazy val laws = project
     libraryDependencies += "org.typelevel" %% "discipline-core" % "1.1.5",
     // Settings for test:
     libraryDependencies += "org.scalameta" %% "munit" % "0.7.26" % Test,
-    libraryDependencies += "org.scalameta" %% "munit" % "0.7.25" % Test,
+    libraryDependencies += "org.scalameta" %% "munit" % "0.7.27" % Test,
     libraryDependencies += "org.typelevel" %% "discipline-munit" % "1.0.9" % Test,
     libraryDependencies += "org.typelevel" %% "cats-laws" % "2.6.1" % Test,
     libraryDependencies += "com.chuusai" %% "shapeless" % "2.3.7" % Test,
